@@ -27,6 +27,7 @@ jobs:
         run: |
           npm ci
           npm run build:protocol
+          npm run build:client
           npm run build:highlight
           npm run build --workspace=@getpaseo/expo-two-way-audio
 
