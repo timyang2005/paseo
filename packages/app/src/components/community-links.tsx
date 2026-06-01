@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { GitHubIcon } from "@/components/icons/github-icon";
 import { DiscordIcon } from "@/components/icons/discord-icon";
 import { openExternalUrl } from "@/utils/open-external-url";
+import { strings } from "@/constants/strings-zh";
 
 const renderGitHubIcon = (color: string) => <GitHubIcon color={color} size={14} />;
 const renderDiscordIcon = (color: string) => <DiscordIcon color={color} size={14} />;
@@ -32,7 +33,7 @@ export function CommunityLinks() {
         onPress={handleOpenGitHub}
         testID="community-links-github-star"
       >
-        Star
+        {strings.community.star}
       </Button>
       <Button
         variant="ghost"
@@ -41,7 +42,7 @@ export function CommunityLinks() {
         onPress={handleOpenSponsor}
         testID="community-links-sponsor"
       >
-        Sponsor
+        {strings.community.sponsor}
       </Button>
       <Button
         variant="ghost"
@@ -50,7 +51,7 @@ export function CommunityLinks() {
         onPress={handleOpenDiscord}
         testID="community-links-discord"
       >
-        Community
+        {strings.community.community}
       </Button>
     </View>
   );

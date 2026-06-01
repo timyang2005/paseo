@@ -13,9 +13,10 @@ import {
 import { DaemonConnectionTestError } from "@/utils/test-daemon-connection";
 import { AdaptiveModalSheet, AdaptiveTextInput, type SheetHeader } from "./adaptive-modal-sheet";
 import { Button } from "@/components/ui/button";
+import { strings } from "@/constants/strings-zh";
 
 const FLEX_ONE_STYLE = { flex: 1 } as const;
-const DIRECT_CONNECTION_HEADER: SheetHeader = { title: "Direct connection" };
+const DIRECT_CONNECTION_HEADER: SheetHeader = { title: strings.addHost.title };
 
 interface DirectConnectionDraft {
   host: string;
@@ -207,7 +208,7 @@ function buildConnectionFailureCopy(
   endpoint: string,
   error: unknown,
 ): { title: string; detail: string | null; raw: string | null } {
-  const title = `We failed to connect to ${endpoint}.`;
+  const title = strings.addHost.connectionFailed.replace("${endpoint}", endpoint);
 
   const raw = (() => {
     if (error instanceof DaemonConnectionTestError) {
@@ -226,28 +227,27 @@ function buildConnectionFailureCopy(
   let detail: string | null = null;
 
   if (raw === "Incorrect password" || raw === "Password required") {
-    detail = raw;
+    detail = raw === "Incorrect password" ? strings.addHost.incorrectPassword : strings.addHost.passwordRequired;
   } else if (rawLower.includes("timed out")) {
-    detail = "Connection timed out. Check the host/port and your network.";
+    detail = strings.addHost.timeout;
   } else if (
     rawLower.includes("econnrefused") ||
     rawLower.includes("connection refused") ||
     rawLower.includes("err_connection_refused")
   ) {
-    detail = "Connection refused. Is the server running at this address?";
+    detail = strings.addHost.refused;
   } else if (rawLower.includes("enotfound") || rawLower.includes("not found")) {
-    detail = "Host not found. Check the hostname and try again.";
+    detail = strings.addHost.notFound;
   } else if (rawLower.includes("ehostunreach") || rawLower.includes("host is unreachable")) {
-    detail = "Host is unreachable. Check your network and firewall.";
+    detail = strings.addHost.unreachable;
   } else if (
     rawLower.includes("certificate") ||
     rawLower.includes("tls") ||
     rawLower.includes("ssl")
   ) {
-    detail =
-      "TLS error. Direct connections use SSL only when a TLS terminator is in front of the daemon.";
+    detail = strings.addHost.tlsError;
   } else {
-    detail = "Unable to connect. Check the host/port and that the daemon is reachable.";
+    detail = strings.addHost.genericError;
   }
 
   return { title, detail, raw };
@@ -360,7 +360,7 @@ export function AddHostModal({ visible, onClose, onCancel, onSaved }: AddHostMod
       }
       setErrorMessage(combined);
       if (!isMobile) {
-        Alert.alert("Connection failed", combined);
+        Alert.alert(strings.addHost.failed, combined);
       }
     } finally {
       setIsSaving(false);
@@ -431,20 +431,20 @@ export function AddHostModal({ visible, onClose, onCancel, onSaved }: AddHostMod
       onClose={handleClose}
       testID="add-host-modal"
     >
-      <Text style={styles.helper}>Enter the address of a Paseo server.</Text>
+      <Text style={styles.helper}>{strings.addHost.helper}</Text>
 
       <View style={styles.portRow}>
         <View style={hostFieldStyle}>
-          <Text style={styles.label}>Host</Text>
+          <Text style={styles.label}>{strings.addHost.hostLabel}</Text>
           <AdaptiveTextInput
             testID="direct-host-input"
             nativeID="direct-host-input"
-            accessibilityLabel="Host"
+            accessibilityLabel={strings.addHost.hostLabel}
             initialValue={host}
             resetKey={`direct-host-${inputResetKey}`}
             value={host}
             onChangeText={setHost}
-            placeholder="localhost"
+            placeholder={strings.addHost.hostPlaceholder}
             placeholderTextColor={theme.colors.foregroundMuted}
             style={styles.input}
             autoCapitalize="none"
@@ -455,16 +455,16 @@ export function AddHostModal({ visible, onClose, onCancel, onSaved }: AddHostMod
           />
         </View>
         <View style={portFieldStyle}>
-          <Text style={styles.label}>Port</Text>
+          <Text style={styles.label}>{strings.addHost.portLabel}</Text>
           <AdaptiveTextInput
             testID="direct-port-input"
             nativeID="direct-port-input"
-            accessibilityLabel="Port"
+            accessibilityLabel={strings.addHost.portLabel}
             initialValue={port}
             resetKey={`direct-port-${inputResetKey}`}
             value={port}
             onChangeText={setPort}
-            placeholder="6767"
+            placeholder={strings.addHost.portPlaceholder}
             placeholderTextColor={theme.colors.foregroundMuted}
             style={styles.input}
             autoCapitalize="none"
@@ -482,7 +482,7 @@ export function AddHostModal({ visible, onClose, onCancel, onSaved }: AddHostMod
         onPress={handleToggleUseTls}
         disabled={isSaving}
         accessibilityRole="checkbox"
-        accessibilityLabel="Use SSL"
+        accessibilityLabel={strings.addHost.useSSL}
         accessibilityState={useTlsAccessibilityState}
         testID="direct-ssl-toggle"
       >
@@ -493,21 +493,21 @@ export function AddHostModal({ visible, onClose, onCancel, onSaved }: AddHostMod
             </View>
           ) : null}
         </View>
-        <Text style={styles.label}>Use SSL</Text>
+        <Text style={styles.label}>{strings.addHost.useSSL}</Text>
       </Pressable>
 
       <View style={styles.field}>
-        <Text style={styles.label}>Password</Text>
+        <Text style={styles.label}>{strings.addHost.passwordLabel}</Text>
         <View style={styles.passwordRow}>
           <AdaptiveTextInput
             testID="direct-password-input"
             nativeID="direct-password-input"
-            accessibilityLabel="Password"
+            accessibilityLabel={strings.addHost.passwordLabel}
             initialValue={password}
             resetKey={`direct-password-${inputResetKey}`}
             value={password}
             onChangeText={setPassword}
-            placeholder="Optional"
+            placeholder={strings.addHost.passwordPlaceholder}
             placeholderTextColor={theme.colors.foregroundMuted}
             style={passwordInputStyle}
             autoCapitalize="none"
@@ -522,7 +522,7 @@ export function AddHostModal({ visible, onClose, onCancel, onSaved }: AddHostMod
             onPress={handleTogglePasswordVisibility}
             disabled={isSaving}
             accessibilityRole="button"
-            accessibilityLabel={isPasswordVisible ? "Hide password" : "Show password"}
+            accessibilityLabel={isPasswordVisible ? strings.addHost.hidePassword : strings.addHost.showPassword}
             testID="direct-password-visibility-toggle"
           >
             <PasswordIcon size={18} color={theme.colors.foregroundMuted} />
@@ -536,11 +536,11 @@ export function AddHostModal({ visible, onClose, onCancel, onSaved }: AddHostMod
           onPress={handleToggleAdvanced}
           disabled={isSaving}
           accessibilityRole="button"
-          accessibilityLabel={isAdvancedOpen ? "Hide advanced" : "Show advanced"}
+          accessibilityLabel={isAdvancedOpen ? strings.addHost.hideAdvanced : strings.addHost.showAdvanced}
           testID="direct-host-advanced-toggle"
         >
           <AdvancedIcon size={16} color={theme.colors.foregroundMuted} />
-          <Text style={styles.advancedText}>Advanced</Text>
+          <Text style={styles.advancedText}>{strings.addHost.advanced}</Text>
         </Pressable>
         {isAdvancedOpen ? (
           <AdaptiveTextInput
@@ -551,7 +551,7 @@ export function AddHostModal({ visible, onClose, onCancel, onSaved }: AddHostMod
             resetKey={`direct-host-uri-${inputResetKey}`}
             value={advancedUri}
             onChangeText={setAdvancedUri}
-            placeholder="tcp://localhost:6767?ssl=true"
+            placeholder={strings.addHost.uriPlaceholder}
             placeholderTextColor={theme.colors.foregroundMuted}
             style={styles.input}
             autoCapitalize="none"
@@ -572,7 +572,7 @@ export function AddHostModal({ visible, onClose, onCancel, onSaved }: AddHostMod
           onPress={handleCancel}
           disabled={isSaving}
         >
-          Cancel
+          {strings.addHost.cancel}
         </Button>
         <Button
           style={FLEX_ONE_STYLE}
@@ -582,7 +582,7 @@ export function AddHostModal({ visible, onClose, onCancel, onSaved }: AddHostMod
           leftIcon={connectIcon}
           testID="direct-host-submit"
         >
-          {isSaving ? "Connecting..." : "Connect"}
+          {isSaving ? strings.addHost.connecting : strings.addHost.connect}
         </Button>
       </View>
     </AdaptiveModalSheet>

@@ -10,9 +10,10 @@ import { connectToDaemon } from "@/utils/test-daemon-connection";
 import { ConnectionOfferSchema } from "@getpaseo/protocol/connection-offer";
 import { AdaptiveModalSheet, AdaptiveTextInput, type SheetHeader } from "./adaptive-modal-sheet";
 import { Button } from "@/components/ui/button";
+import { strings } from "@/constants/strings-zh";
 
 const FLEX_ONE_STYLE = { flex: 1 } as const;
-const PAIR_LINK_HEADER: SheetHeader = { title: "Paste pairing link" };
+const PAIR_LINK_HEADER: SheetHeader = { title: strings.pairLink.title };
 
 const styles = StyleSheet.create((theme) => ({
   helper: {
@@ -98,11 +99,11 @@ export function PairLinkModal({ visible, onClose, onCancel, onSaved }: PairLinkM
     if (isSaving) return;
     const raw = offerUrlRef.current.trim();
     if (!raw) {
-      setErrorMessage("Paste a pairing link (…/#offer=...)");
+      setErrorMessage(strings.pairLink.pasteError);
       return;
     }
     if (!raw.includes("#offer=")) {
-      setErrorMessage("Link must include #offer=...");
+      setErrorMessage(strings.pairLink.missingOffer);
       return;
     }
 
@@ -116,10 +117,10 @@ export function PairLinkModal({ visible, onClose, onCancel, onSaved }: PairLinkM
         const payload = decodeOfferFragmentPayload(encoded);
         return ConnectionOfferSchema.parse(payload);
       } catch (error) {
-        const message = error instanceof Error ? error.message : "Invalid pairing link";
+        const message = error instanceof Error ? error.message : strings.pairLink.invalidLink;
         setErrorMessage(message);
         if (!isMobile) {
-          Alert.alert("Pairing failed", message);
+          Alert.alert(strings.pairLink.failed, message);
         }
         return null;
       }
@@ -150,10 +151,10 @@ export function PairLinkModal({ visible, onClose, onCancel, onSaved }: PairLinkM
       onSaved?.({ profile, serverId: parsedOffer.serverId, hostname, isNewHost });
       handleClose();
     } catch (error) {
-      const message = error instanceof Error ? error.message : "Unable to pair host";
+      const message = error instanceof Error ? error.message : strings.pairLink.unableToPair;
       setErrorMessage(message);
       if (!isMobile) {
-        Alert.alert("Pairing failed", message);
+        Alert.alert(strings.pairLink.failed, message);
       }
     } finally {
       setIsSaving(false);
@@ -175,17 +176,17 @@ export function PairLinkModal({ visible, onClose, onCancel, onSaved }: PairLinkM
       onClose={handleClose}
       testID="pair-link-modal"
     >
-      <Text style={styles.helper}>Paste the pairing link from your server.</Text>
+      <Text style={styles.helper}>{strings.pairLink.helper}</Text>
 
       <View style={styles.field}>
-        <Text style={styles.label}>Pairing link</Text>
+        <Text style={styles.label}>{strings.pairLink.label}</Text>
         <AdaptiveTextInput
           ref={inputRef}
           testID="pair-link-input"
           nativeID="pair-link-input"
           accessibilityLabel="pair-link-input"
           onChangeText={handleChangeOfferUrl}
-          placeholder="https://app.paseo.sh/#offer=..."
+          placeholder={strings.pairLink.placeholder}
           placeholderTextColor={theme.colors.foregroundMuted}
           style={styles.input}
           autoFocus
@@ -204,9 +205,9 @@ export function PairLinkModal({ visible, onClose, onCancel, onSaved }: PairLinkM
           disabled={isSaving}
           testID="pair-link-cancel"
           accessibilityRole="button"
-          accessibilityLabel="Cancel"
+          accessibilityLabel={strings.pairLink.cancel}
         >
-          Cancel
+          {strings.pairLink.cancel}
         </Button>
         <Button
           style={FLEX_ONE_STYLE}
@@ -215,10 +216,10 @@ export function PairLinkModal({ visible, onClose, onCancel, onSaved }: PairLinkM
           disabled={isSaving}
           testID="pair-link-submit"
           accessibilityRole="button"
-          accessibilityLabel="Pair"
+          accessibilityLabel={strings.pairLink.pair}
           leftIcon={pairIcon}
         >
-          {isSaving ? "Pairing..." : "Pair"}
+          {isSaving ? strings.pairLink.pairing : strings.pairLink.pair}
         </Button>
       </View>
     </AdaptiveModalSheet>

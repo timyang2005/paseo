@@ -111,6 +111,7 @@ import {
   type SettingsSectionSlug,
 } from "@/utils/host-routes";
 import { navigateToLastWorkspace } from "@/stores/navigation-active-workspace-store";
+import { strings } from "@/constants/strings-zh";
 
 // ---------------------------------------------------------------------------
 // View model
@@ -131,13 +132,13 @@ interface SidebarSectionItem {
 }
 
 const SIDEBAR_SECTION_ITEMS: SidebarSectionItem[] = [
-  { id: "general", label: "General", icon: Settings },
-  { id: "appearance", label: "Appearance", icon: Palette },
-  { id: "shortcuts", label: "Shortcuts", icon: Keyboard, desktopOnly: true },
-  { id: "integrations", label: "Integrations", icon: Puzzle, desktopOnly: true },
-  { id: "permissions", label: "Permissions", icon: Shield, desktopOnly: true },
-  { id: "diagnostics", label: "Diagnostics", icon: Stethoscope },
-  { id: "about", label: "About", icon: Info },
+  { id: "general", label: strings.settings.general, icon: Settings },
+  { id: "appearance", label: strings.settings.appearance, icon: Palette },
+  { id: "shortcuts", label: strings.settings.shortcuts, icon: Keyboard, desktopOnly: true },
+  { id: "integrations", label: strings.settings.integrations, icon: Puzzle, desktopOnly: true },
+  { id: "permissions", label: strings.settings.permissions, icon: Shield, desktopOnly: true },
+  { id: "diagnostics", label: strings.settings.diagnostics, icon: Stethoscope },
+  { id: "about", label: strings.settings.about, icon: Info },
 ];
 
 interface HostSectionItem {
@@ -147,10 +148,10 @@ interface HostSectionItem {
 }
 
 const HOST_SECTION_ITEMS: HostSectionItem[] = [
-  { id: "connections", label: "Connections", icon: Network },
-  { id: "orchestration", label: "Orchestration", icon: Workflow },
-  { id: "providers", label: "Providers", icon: Boxes },
-  { id: "daemon", label: "Daemon", icon: Server },
+  { id: "connections", label: strings.settings.connections, icon: Network },
+  { id: "orchestration", label: strings.settings.orchestration, icon: Workflow },
+  { id: "providers", label: strings.settings.providers, icon: Boxes },
+  { id: "daemon", label: strings.settings.daemon, icon: Server },
 ];
 
 // ---------------------------------------------------------------------------
@@ -176,19 +177,19 @@ function selectedSidebarItemStyle({ hovered }: PressableStateCallbackType & { ho
 const ROW_WITH_BORDER_STYLE = [settingsStyles.row, settingsStyles.rowBorder];
 
 const SEND_BEHAVIOR_OPTIONS = [
-  { value: "interrupt" as const, label: "Interrupt" },
-  { value: "queue" as const, label: "Queue" },
+  { value: "interrupt" as const, label: strings.settings.interrupt },
+  { value: "queue" as const, label: strings.settings.queue },
 ];
 
 const RELEASE_CHANNEL_OPTIONS = [
-  { value: "stable" as const, label: "Stable" },
-  { value: "beta" as const, label: "Beta" },
+  { value: "stable" as const, label: strings.settings.stable },
+  { value: "beta" as const, label: strings.settings.beta },
 ];
 
 const SERVICE_URL_BEHAVIOR_LABELS: Record<ServiceUrlBehavior, string> = {
-  ask: "Ask",
-  "in-app": "In Paseo",
-  external: "External browser",
+  ask: strings.settings.ask,
+  "in-app": strings.settings.inPaseo,
+  external: strings.settings.externalBrowser,
 };
 
 const SERVICE_URL_BEHAVIOR_VALUES: ServiceUrlBehavior[] = ["ask", "in-app", "external"];
@@ -261,13 +262,13 @@ function GeneralSection({
   }, [settings.terminalScrollbackLines]);
 
   return (
-    <SettingsSection title="General">
+    <SettingsSection title={strings.settings.general}>
       <View style={settingsStyles.card}>
         <View style={settingsStyles.row}>
           <View style={settingsStyles.rowContent}>
-            <Text style={settingsStyles.rowTitle}>Default send</Text>
+            <Text style={settingsStyles.rowTitle}>{strings.settings.defaultSend}</Text>
             <Text style={settingsStyles.rowHint}>
-              What happens when you press Enter while the agent is running
+              {strings.settings.defaultSendHint}
             </Text>
           </View>
           <SegmentedControl
@@ -280,8 +281,8 @@ function GeneralSection({
         {isDesktopApp ? (
           <View style={ROW_WITH_BORDER_STYLE}>
             <View style={settingsStyles.rowContent}>
-              <Text style={settingsStyles.rowTitle}>Service URLs</Text>
-              <Text style={settingsStyles.rowHint}>Where to open URLs from running scripts</Text>
+              <Text style={settingsStyles.rowTitle}>{strings.settings.serviceURLs}</Text>
+              <Text style={settingsStyles.rowHint}>{strings.settings.serviceURLsHint}</Text>
             </View>
             <DropdownMenu>
               <DropdownMenuTrigger style={themeTriggerStyle}>
@@ -305,8 +306,8 @@ function GeneralSection({
         ) : null}
         <View style={ROW_WITH_BORDER_STYLE}>
           <View style={settingsStyles.rowContent}>
-            <Text style={settingsStyles.rowTitle}>Terminal scrollback</Text>
-            <Text style={settingsStyles.rowHint}>Lines kept in the built-in terminal buffer</Text>
+            <Text style={settingsStyles.rowTitle}>{strings.settings.terminalScrollback}</Text>
+            <Text style={settingsStyles.rowHint}>{strings.settings.terminalScrollbackHint}</Text>
           </View>
           <TextInput
             value={terminalScrollbackValue}
@@ -317,7 +318,7 @@ function GeneralSection({
             inputMode="numeric"
             selectTextOnFocus
             style={styles.terminalScrollbackInput}
-            accessibilityLabel="Terminal scrollback lines"
+            accessibilityLabel={strings.settings.terminalScrollback}
           />
         </View>
       </View>
@@ -342,11 +343,11 @@ function DiagnosticsSection({
     void handlePlaybackTest();
   }, [handlePlaybackTest]);
   return (
-    <SettingsSection title="Diagnostics">
+    <SettingsSection title={strings.settings.diagnostics}>
       <View style={settingsStyles.card}>
         <View style={settingsStyles.row}>
           <View style={settingsStyles.rowContent}>
-            <Text style={settingsStyles.rowTitle}>Test audio</Text>
+            <Text style={settingsStyles.rowTitle}>{strings.settings.testAudio}</Text>
             {playbackTestResult ? (
               <Text style={settingsStyles.rowHint}>{playbackTestResult}</Text>
             ) : null}
@@ -357,7 +358,7 @@ function DiagnosticsSection({
             onPress={handlePlayPress}
             disabled={!voiceAudioEngine || isPlaybackTestRunning}
           >
-            {isPlaybackTestRunning ? "Playing..." : "Play test"}
+            {isPlaybackTestRunning ? strings.settings.playing : strings.settings.playTest}
           </Button>
         </View>
       </View>
@@ -374,12 +375,12 @@ interface AboutSectionProps {
 function AboutSection({ appVersion, appVersionText, isDesktopApp }: AboutSectionProps) {
   return (
     <>
-      <SettingsSection title="About">
+      <SettingsSection title={strings.settings.about}>
         <View style={settingsStyles.card}>
           <View style={settingsStyles.row}>
             <View style={settingsStyles.rowContent}>
-              <Text style={settingsStyles.rowTitle}>App version</Text>
-              <Text style={settingsStyles.rowHint}>This device</Text>
+              <Text style={settingsStyles.rowTitle}>{strings.settings.appVersion}</Text>
+              <Text style={settingsStyles.rowHint}>{strings.settings.thisDevice}</Text>
             </View>
             <Text style={styles.aboutValue}>{appVersionText}</Text>
           </View>

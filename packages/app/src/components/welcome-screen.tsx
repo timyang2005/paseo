@@ -15,6 +15,7 @@ import { buildHostRootRoute } from "@/utils/host-routes";
 import { PaseoLogo } from "@/components/icons/paseo-logo";
 import { openExternalUrl } from "@/utils/open-external-url";
 import { isWeb, isNative } from "@/constants/platform";
+import { strings } from "@/constants/strings-zh";
 
 interface WelcomeAction {
   key: "scan-qr" | "direct-connection" | "paste-pairing-link";
@@ -206,7 +207,7 @@ export function WelcomeScreen({ onHostAdded }: WelcomeScreenProps) {
     ? [
         {
           key: "direct-connection",
-          label: "Direct connection",
+          label: strings.welcome.directConnection,
           testID: "welcome-direct-connection",
           primary: true,
           icon: Link2,
@@ -214,7 +215,7 @@ export function WelcomeScreen({ onHostAdded }: WelcomeScreenProps) {
         },
         {
           key: "paste-pairing-link",
-          label: "Paste pairing link",
+          label: strings.welcome.pasteLink,
           testID: "welcome-paste-pairing-link",
           primary: false,
           icon: ClipboardPaste,
@@ -224,7 +225,7 @@ export function WelcomeScreen({ onHostAdded }: WelcomeScreenProps) {
     : [
         {
           key: "scan-qr",
-          label: "Scan QR code",
+          label: strings.welcome.scanQR,
           testID: "welcome-scan-qr",
           primary: true,
           icon: QrCode,
@@ -232,7 +233,7 @@ export function WelcomeScreen({ onHostAdded }: WelcomeScreenProps) {
         },
         {
           key: "direct-connection",
-          label: "Direct connection",
+          label: strings.welcome.directConnection,
           testID: "welcome-direct-connection",
           primary: false,
           icon: Link2,
@@ -240,7 +241,7 @@ export function WelcomeScreen({ onHostAdded }: WelcomeScreenProps) {
         },
         {
           key: "paste-pairing-link",
-          label: "Paste pairing link",
+          label: strings.welcome.pasteLink,
           testID: "welcome-paste-pairing-link",
           primary: false,
           icon: ClipboardPaste,
@@ -264,8 +265,8 @@ export function WelcomeScreen({ onHostAdded }: WelcomeScreenProps) {
         <View style={styles.content}>
           <PaseoLogo size={96} />
           <View style={styles.copyBlock}>
-            <Text style={styles.title}>Welcome to Paseo</Text>
-            <Text style={styles.subtitle}>Connect your computer to get started</Text>
+            <Text style={styles.title}>{strings.welcome.title}</Text>
+            <Text style={styles.subtitle}>{strings.welcome.subtitle}</Text>
             {isNative ? (
               <Pressable style={styles.setupLink} onPress={handleOpenPaseoSite}>
                 <Text style={styles.setupLinkText}>paseo.sh</Text>
@@ -288,7 +289,7 @@ export function WelcomeScreen({ onHostAdded }: WelcomeScreenProps) {
             style={styles.settingsButton}
             testID="welcome-open-settings"
           >
-            Settings
+            {strings.welcome.settings}
           </Button>
         </View>
         <Text style={styles.versionLabel}>{appVersionText}</Text>

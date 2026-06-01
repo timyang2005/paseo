@@ -19,7 +19,7 @@ function resolveSecretFile(params) {
 
 const variants = {
   production: {
-    name: "Paseo",
+    name: "Paseo - AI 代理监控",
     packageId: "sh.paseo",
     googleServicesFile: resolveSecretFile({
       envKey: "GOOGLE_SERVICES_FILE_PROD",
@@ -31,7 +31,7 @@ const variants = {
     }),
   },
   development: {
-    name: "Paseo Debug",
+    name: "Paseo - AI 代理监控 (调试)",
     packageId: "sh.paseo.debug",
     googleServicesFile: resolveSecretFile({
       envKey: "GOOGLE_SERVICES_FILE_DEBUG",
