@@ -20,6 +20,11 @@ jobs:
           distribution: "temurin"
           java-version: "17"
 
+      - name: Increase Gradle memory
+        run: |
+          mkdir -p ~/.gradle
+          echo "org.gradle.jvmargs=-Xmx4g -XX:MaxMetaspaceSize=1g -XX:+HeapDumpOnOutOfMemoryError" > ~/.gradle/gradle.properties
+
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
