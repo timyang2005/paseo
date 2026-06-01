@@ -1,0 +1,58 @@
+name: Build Chinese APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "17"
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm run build:highlight
+          npm run build --workspace=@getpaseo/expo-two-way-audio
+
+      - name: Expo prebuild
+        run: |
+          cd packages/app
+          npx cross-env APP_VARIANT=production expo prebuild --platform android
+
+      - name: Build JS Bundle
+        run: |
+          cd packages/app
+          npx cross-env APP_VARIANT=production expo export --platform android
+
+      - name: Prepare bundle
+        run: |
+          mkdir -p packages/app/android/app/build/generated/assets/createBundleReleaseJsAndAssets
+          cp packages/app/dist/_expo/static/js/android/*.hbc packages/app/android/app/build/generated/assets/createBundleReleaseJsAndAssets/
+          cp packages/app/dist/metadata.json packages/app/android/app/build/generated/assets/createBundleReleaseJsAndAssets/ 2>/dev/null || true
+
+      - name: Build APK
+        run: |
+          cd packages/app/android
+          chmod +x gradlew
+          ./gradlew assembleRelease
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: paseo-chinese-apk
+          path: packages/app/android/app/build/outputs/apk/release/app-release.apk
