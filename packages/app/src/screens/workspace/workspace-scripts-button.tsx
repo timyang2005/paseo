@@ -19,6 +19,7 @@ import { isNative } from "@/constants/platform";
 import { openServiceUrl } from "@/utils/open-service-url";
 import { resolveWorkspaceScriptLink } from "@/utils/workspace-script-links";
 import type { Theme } from "@/styles/theme";
+import { strings } from "@/constants/strings-zh";
 
 type ScriptActionIcon = "start" | "view";
 
@@ -312,7 +313,7 @@ function ScriptRow({
         accessibilityLabel={`View ${script.scriptName} terminal`}
         testID={`workspace-scripts-view-${script.scriptName}`}
         icon="view"
-        label="View"
+        label={strings.workspaceScripts.view}
         onPress={handleView}
       />
     );
@@ -323,7 +324,7 @@ function ScriptRow({
         testID={`workspace-scripts-start-${script.scriptName}`}
         disabled={isStartPending}
         icon="start"
-        label="Run"
+        label={strings.workspaceScripts.run}
         onPress={handleRun}
       />
     );
@@ -440,7 +441,7 @@ export function WorkspaceScriptsButton({
                 uniProps={triggerPlayMapping}
                 {...triggerPlayProps}
               />
-              {!hideLabels && <Text style={styles.splitButtonText}>Scripts</Text>}
+              {!hideLabels && <Text style={styles.splitButtonText}>{strings.workspaceScripts.scripts}</Text>}
               {presentation === "split" ? (
                 <ThemedChevronDown size={14} uniProps={mutedColorMapping} />
               ) : null}

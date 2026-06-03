@@ -8,6 +8,7 @@ import {
   type PickedImageAttachmentInput,
 } from "@/hooks/image-attachment-picker";
 import { isWeb } from "@/constants/platform";
+import { strings } from "@/constants/strings-zh";
 
 interface UseImageAttachmentPickerResult {
   pickImages: () => Promise<PickedImageAttachmentInput[] | null>;

@@ -1,6 +1,7 @@
 import type { WorkspaceTabDescriptor } from "@/screens/workspace/workspace-tabs-types";
 import { encodeFilePathForPathSegment } from "@/utils/host-routes";
 import { buildDeterministicWorkspaceTabId } from "@/workspace-tabs/identity";
+import { strings } from "@/constants/strings-zh";
 
 export type WorkspaceTabMenuSurface = "desktop" | "mobile";
 
@@ -66,11 +67,11 @@ export interface WorkspaceDesktopTabActions {
 }
 
 function buildCloseBeforeLabel(surface: WorkspaceTabMenuSurface): string {
-  return surface === "mobile" ? "Close tabs above" : "Close to the left";
+  return surface === "mobile" ? strings.workspace.closeAbove : strings.workspace.closeToLeft;
 }
 
 function buildCloseAfterLabel(surface: WorkspaceTabMenuSurface): string {
-  return surface === "mobile" ? "Close tabs below" : "Close to the right";
+  return surface === "mobile" ? strings.workspace.closeBelow : strings.workspace.closeToRight;
 }
 
 function buildCloseBeforeTestIDSuffix(surface: WorkspaceTabMenuSurface): string {
@@ -128,7 +129,7 @@ export function buildWorkspaceTabMenuEntries(
     entries.push({
       kind: "item",
       key: "copy-resume-command",
-      label: "Copy resume command",
+      label: strings.workspace.copyResumeCommand,
       icon: "copy",
       testID: `${menuTestIDBase}-copy-resume-command`,
       onSelect: () => {
@@ -138,7 +139,7 @@ export function buildWorkspaceTabMenuEntries(
     entries.push({
       kind: "item",
       key: "copy-agent-id",
-      label: "Copy agent id",
+      label: strings.workspace.copyAgentId,
       icon: "copy",
       hint: agentId.slice(0, 7),
       testID: `${menuTestIDBase}-copy-agent-id`,
@@ -152,7 +153,7 @@ export function buildWorkspaceTabMenuEntries(
     entries.push({
       kind: "item",
       key: "rename",
-      label: "Rename",
+      label: strings.workspace.rename,
       icon: "pencil",
       testID: `${menuTestIDBase}-rename`,
       onSelect: () => {
@@ -190,7 +191,7 @@ export function buildWorkspaceTabMenuEntries(
   entries.push({
     kind: "item",
     key: "close-others",
-    label: "Close other tabs",
+      label: strings.workspace.closeOthers,
     icon: "copy-x",
     disabled: isOnlyTab,
     testID: `${menuTestIDBase}-close-others`,
@@ -203,9 +204,9 @@ export function buildWorkspaceTabMenuEntries(
     entries.push({
       kind: "item",
       key: "reload-agent",
-      label: "Reload agent",
+      label: strings.workspace.reloadAgent,
       icon: "rotate-cw",
-      tooltip: "Reload agent to update skills, MCPs or login status.",
+      tooltip: strings.workspace.reloadAgentHint,
       testID: `${menuTestIDBase}-reload-agent`,
       onSelect: () => {
         void onReloadAgent(agentId);
@@ -215,7 +216,7 @@ export function buildWorkspaceTabMenuEntries(
   entries.push({
     kind: "item",
     key: "close",
-    label: "Close",
+    label: strings.workspace.close,
     icon: "x",
     testID: `${menuTestIDBase}-close`,
     onSelect: () => {

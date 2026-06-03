@@ -22,6 +22,7 @@ import { useKeyboardShortcutsStore } from "@/stores/keyboard-shortcuts-store";
 import { getShortcutOs } from "@/utils/shortcut-platform";
 import { getIsElectronRuntime } from "@/constants/layout";
 import { isNative } from "@/constants/platform";
+import { strings } from "@/constants/strings-zh";
 
 const EMPTY_CAPTURED_COMBOS: string[] = [];
 
@@ -41,7 +42,7 @@ function ShortcutSequence({
   }, [chord, heldModifiers]);
 
   if ((!chord || chord.length === 0) && !heldModifiers) {
-    return <Text style={styles.capturingText}>Press shortcut...</Text>;
+    return <Text style={styles.capturingText}>{strings.shortcuts.pressShortcut}</Text>;
   }
 
   return <Shortcut chord={displayChord} />;
@@ -138,17 +139,17 @@ function ShortcutRow({
           <>
             {isCapturing && capturedCombos.length > 0 ? (
               <Button variant="ghost" size="sm" onPress={onDone}>
-                Done
+                {strings.shortcuts.done}
               </Button>
             ) : null}
             <Button variant="ghost" size="sm" onPress={isCapturing ? onCancel : onRebind}>
-              {isCapturing ? "Cancel" : "Rebind"}
+              {isCapturing ? strings.shortcuts.cancel : strings.shortcuts.rebind}
             </Button>
           </>
         )}
         {overrideCombo !== undefined && !isCapturing && (
           <Button variant="ghost" size="sm" onPress={onReset}>
-            <Text style={styles.resetText}>Reset</Text>
+            <Text style={styles.resetText}>{strings.shortcuts.reset}</Text>
           </Button>
         )}
       </View>
@@ -244,9 +245,9 @@ export function KeyboardShortcutsSection() {
 
   if (isNative) {
     return (
-      <SettingsSection title="Shortcuts">
+      <SettingsSection title={strings.shortcuts.desktopOnly}>
         <View style={mobileCardStyle}>
-          <Text style={styles.mobileText}>Keyboard shortcuts are only available on desktop</Text>
+          <Text style={styles.mobileText}>{strings.shortcuts.desktopOnly}</Text>
         </View>
       </SettingsSection>
     );
@@ -254,7 +255,7 @@ export function KeyboardShortcutsSection() {
 
   const resetAllButton = hasOverrides ? (
     <Button variant="ghost" size="sm" onPress={handleResetAll}>
-      Reset all
+      {strings.shortcuts.resetAll}
     </Button>
   ) : undefined;
 

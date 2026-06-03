@@ -10,6 +10,7 @@ import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { AgentList } from "@/components/agent-list";
 import { useAgentHistory } from "@/hooks/use-agent-history";
 import { buildHostOpenProjectRoute } from "@/utils/host-routes";
+import { strings } from "@/constants/strings-zh";
 
 export function SessionsScreen({ serverId }: { serverId: string }) {
   const isFocused = useIsFocused();
@@ -56,7 +57,7 @@ function SessionsScreenContent({ serverId }: { serverId: string }) {
       hasMore ? (
         <View style={styles.footer}>
           <Button variant="ghost" onPress={loadMore} disabled={isLoadingMore}>
-            {isLoadingMore ? "Loading..." : "Load more"}
+            {isLoadingMore ? strings.sessions.loading : strings.sessions.loadMore}
           </Button>
         </View>
       ) : null,
@@ -65,7 +66,7 @@ function SessionsScreenContent({ serverId }: { serverId: string }) {
 
   return (
     <View style={styles.container}>
-      <MenuHeader title="Sessions" />
+      <MenuHeader title={strings.sessions.title} />
       {isInitialLoad ? (
         <View style={styles.loadingContainer}>
           <LoadingSpinner size="large" color={theme.colors.foregroundMuted} />
@@ -73,9 +74,9 @@ function SessionsScreenContent({ serverId }: { serverId: string }) {
       ) : null}
       {!isInitialLoad && sortedAgents.length === 0 ? (
         <View style={styles.emptyContainer}>
-          <Text style={styles.emptyText}>No sessions yet</Text>
+          <Text style={styles.emptyText}>{strings.sessions.noSessions}</Text>
           <Button variant="ghost" leftIcon={ChevronLeft} onPress={handleBack}>
-            Back
+            {strings.sessions.back}
           </Button>
         </View>
       ) : null}

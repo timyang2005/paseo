@@ -19,6 +19,7 @@ import { useOpenProject } from "@/hooks/use-open-project";
 import { buildWorkingDirectorySuggestions } from "@/utils/working-directory-suggestions";
 import { isNative } from "@/constants/platform";
 import { useActiveServerId } from "@/hooks/use-active-server-id";
+import { strings } from "@/constants/strings-zh";
 
 interface PathRowProps {
   path: string;
@@ -235,7 +236,7 @@ export function ProjectPickerModal() {
               ref={inputRef}
               value={query}
               onChangeText={handleChangeQuery}
-              placeholder="Type a directory path..."
+              placeholder={strings.projectPicker.typePath}
               placeholderTextColor={theme.colors.foregroundMuted}
               style={inputStyle}
               autoCapitalize="none"
@@ -253,9 +254,9 @@ export function ProjectPickerModal() {
             keyboardShouldPersistTaps="always"
             showsVerticalScrollIndicator={false}
           >
-            {isSubmitting ? <Text style={emptyTextStyle}>Opening project...</Text> : null}
+            {isSubmitting ? <Text style={emptyTextStyle}>{strings.projectPicker.opening}</Text> : null}
             {!isSubmitting && options.length === 0 && !query.trim() ? (
-              <Text style={emptyTextStyle}>Start typing a path</Text>
+              <Text style={emptyTextStyle}>{strings.projectPicker.startTyping}</Text>
             ) : null}
             {!isSubmitting && !(options.length === 0 && !query.trim()) ? (
               <>

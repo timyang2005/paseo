@@ -26,6 +26,7 @@ import { useHoverSafeZone } from "@/hooks/use-hover-safe-zone";
 import { useIsCompactFormFactor } from "@/constants/layout";
 import { FloatingSurface } from "@/components/ui/floating";
 import { isWeb } from "@/constants/platform";
+import { strings } from "@/constants/strings-zh";
 
 interface Rect {
   x: number;

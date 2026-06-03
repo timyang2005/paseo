@@ -35,6 +35,7 @@ import {
 import { isNative } from "@/constants/platform";
 import { settingsStyles } from "@/styles/settings";
 import { AppearancePreview } from "./appearance-preview";
+import { strings } from "@/constants/strings-zh";
 
 // ---------------------------------------------------------------------------
 // Theme-reactive leaf icons (withUnistyles + uniProps color mapping — no
@@ -51,13 +52,13 @@ const mutedColorMapping = (theme: Theme) => ({ color: theme.colors.foregroundMut
 
 // Stored value -> displayed label. `auto` reads as "System" for the app theme.
 const THEME_LABELS: Record<AppSettings["theme"], string> = {
-  light: "Light",
-  dark: "Dark",
-  zinc: "Zinc",
-  midnight: "Midnight",
-  claude: "Claude",
-  ghostty: "Ghostty",
-  auto: "System",
+  light: strings.appearance.light,
+  dark: strings.appearance.dark,
+  zinc: strings.appearance.zinc,
+  midnight: strings.appearance.midnight,
+  claude: strings.appearance.claude,
+  ghostty: strings.appearance.ghostty,
+  auto: strings.appearance.system,
 };
 
 const PRIMARY_THEMES: readonly AppSettings["theme"][] = ["light", "dark", "auto"];
@@ -148,7 +149,7 @@ function ThemeRow({ value, onChange }: ThemeRowProps) {
   return (
     <View style={settingsStyles.row}>
       <View style={settingsStyles.rowContent}>
-        <Text style={settingsStyles.rowTitle}>Theme</Text>
+        <Text style={settingsStyles.rowTitle}>{strings.appearance.theme}</Text>
       </View>
       <DropdownMenu>
         <DropdownMenuTrigger
@@ -319,8 +320,8 @@ function SyntaxRow({ value, onChange }: SyntaxRowProps) {
   return (
     <View style={settingsStyles.row}>
       <View style={settingsStyles.rowContent}>
-        <Text style={settingsStyles.rowTitle}>Highlight theme</Text>
-        <Text style={settingsStyles.rowHint}>Colors for code, independent of the app theme</Text>
+        <Text style={settingsStyles.rowTitle}>{strings.appearance.highlightTheme}</Text>
+        <Text style={settingsStyles.rowHint}>{strings.appearance.highlightThemeHint}</Text>
       </View>
       <DropdownMenu>
         <DropdownMenuTrigger
@@ -455,17 +456,17 @@ export function AppearanceSection() {
 
   return (
     <View>
-      <SettingsSection title="Theme">
+      <SettingsSection title={strings.appearance.theme}>
         <View style={settingsStyles.card}>
           <ThemeRow value={settings.theme} onChange={handleThemeChange} />
         </View>
       </SettingsSection>
-      <SettingsSection title="Fonts">
+      <SettingsSection title={strings.appearance.fonts}>
         <View style={settingsStyles.card}>
           {showFontFamilyRows ? (
             <FontFamilyRow
-              title="Interface font"
-              hint="Used across the app. Leave empty for the system default"
+              title={strings.appearance.interfaceFont}
+              hint={strings.appearance.interfaceFontHint}
               accessibilityLabel="Interface font family"
               placeholder={UI_FONT_PLACEHOLDER}
               value={settings.uiFontFamily}
@@ -476,7 +477,7 @@ export function AppearanceSection() {
             />
           ) : null}
           <FontSizeRow
-            title="Interface size"
+            title={strings.appearance.interfaceSize}
             accessibilityLabel="Interface font size"
             draft={uiSizeDraft}
             withBorder={showFontFamilyRows}
@@ -485,8 +486,8 @@ export function AppearanceSection() {
           />
           {showFontFamilyRows ? (
             <FontFamilyRow
-              title="Code font"
-              hint="Used in code, diffs, and the terminal output. Leave empty for the system default"
+              title={strings.appearance.codeFont}
+              hint={strings.appearance.codeFontHint}
               accessibilityLabel="Code font family"
               placeholder={MONO_FONT_PLACEHOLDER}
               value={settings.monoFontFamily}
@@ -497,7 +498,7 @@ export function AppearanceSection() {
             />
           ) : null}
           <FontSizeRow
-            title="Code size"
+            title={strings.appearance.codeSize}
             accessibilityLabel="Code font size"
             draft={codeSizeDraft}
             onChangeDraft={handleCodeSizeChange}
@@ -505,7 +506,7 @@ export function AppearanceSection() {
           />
         </View>
       </SettingsSection>
-      <SettingsSection title="Syntax">
+      <SettingsSection title={strings.appearance.syntax}>
         <View style={settingsStyles.card}>
           <SyntaxRow value={settings.syntaxTheme} onChange={handleSyntaxThemeChange} />
         </View>

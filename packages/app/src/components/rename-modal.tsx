@@ -8,6 +8,7 @@ import {
 } from "@/components/adaptive-modal-sheet";
 import { Button } from "@/components/ui/button";
 import { isWeb } from "@/constants/platform";
+import { strings } from "@/constants/strings-zh";
 
 export interface AdaptiveRenameModalProps {
   visible: boolean;
@@ -27,7 +28,7 @@ export function AdaptiveRenameModal({
   title,
   initialValue,
   placeholder,
-  submitLabel = "Rename",
+  submitLabel = strings.rename.title,
   onClose,
   onSubmit,
   validate,
@@ -64,7 +65,7 @@ export function AdaptiveRenameModal({
 
   const computeError = useCallback(
     (value: string): string | null => {
-      if (!value.trim()) return "Name is required";
+      if (!value.trim()) return strings.rename.nameRequired;
       return validate ? validate(value) : null;
     },
     [validate],
@@ -91,7 +92,7 @@ export function AdaptiveRenameModal({
       onClose();
     } catch (err) {
       setIsPending(false);
-      const message = err instanceof Error && err.message ? err.message : "Unable to save";
+      const message = err instanceof Error && err.message ? err.message : strings.rename.unableToSave;
       setError(message);
     }
   }, [isPending, draft, initialValue, computeError, onSubmit, onClose]);
@@ -147,7 +148,7 @@ export function AdaptiveRenameModal({
             disabled={isPending}
             testID={cancelTestID}
           >
-            Cancel
+            {strings.rename.cancel}
           </Button>
           <Button
             variant="default"
@@ -157,7 +158,7 @@ export function AdaptiveRenameModal({
             disabled={submitDisabled}
             testID={submitTestID}
           >
-            {isPending ? "Saving..." : submitLabel}
+            {isPending ? strings.rename.saving : submitLabel}
           </Button>
         </View>
       </View>

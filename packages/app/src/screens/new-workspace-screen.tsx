@@ -42,6 +42,7 @@ import {
   type PickerItem,
 } from "./new-workspace-picker-item";
 import { findCheckoutHintPrAttachment, syncPickerPrAttachment } from "./new-workspace-picker-state";
+import { strings } from "@/constants/strings-zh";
 
 function resolveCheckoutRequest(
   selectedItem: PickerItem | null,
@@ -144,7 +145,7 @@ function RefPickerTrigger({
         </Pressable>
       </TooltipTrigger>
       <TooltipContent side="top" align="center" offset={8}>
-        <Text style={styles.tooltipText}>Choose where to start from</Text>
+        <Text style={styles.tooltipText}>{strings.newWorkspace.chooseWhere}</Text>
       </TooltipContent>
     </Tooltip>
   );
@@ -166,7 +167,7 @@ function CheckoutHintBadge({
   return (
     <View style={styles.checkoutHintBadge}>
       <Text style={styles.badgeText} numberOfLines={1}>
-        Check out PR #{prNumber}?
+        {strings.newWorkspace.checkoutPR.replace('${number}', String(prNumber))}
       </Text>
       <Pressable
         testID="new-workspace-checkout-hint-accept"
@@ -857,8 +858,8 @@ export function NewWorkspaceScreen({
 
   const pickerEmptyText =
     branchSuggestionsQuery.isFetching || githubPrSearchQuery.isFetching
-      ? "Searching..."
-      : "No matching refs.";
+      ? strings.newWorkspace.searching
+      : strings.newWorkspace.noMatchingRefs;
 
   const composerFooter = useMemo(
     () => (
@@ -879,8 +880,8 @@ export function NewWorkspaceScreen({
             value={selectedOptionId}
             onSelect={handleSelectOption}
             searchable
-            searchPlaceholder="Search branches and PRs"
-            title="Start from"
+            searchPlaceholder={strings.newWorkspace.searchPlaceholder}
+            title={strings.newWorkspace.startFrom}
             open={pickerOpen}
             onOpenChange={handlePickerOpenChange}
             onSearchQueryChange={setPickerSearchQuery}
@@ -936,7 +937,7 @@ export function NewWorkspaceScreen({
               <SidebarMenuToggle />
               <View style={styles.headerTitleContainer}>
                 <Text style={styles.headerTitle} numberOfLines={1}>
-                  New workspace
+                  {strings.newWorkspace.title}
                 </Text>
                 <Text style={styles.headerProjectTitle} numberOfLines={1}>
                   {workspaceTitle}

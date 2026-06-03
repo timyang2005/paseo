@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { strings } from "@/constants/strings-zh";
 import { Text, View } from "react-native";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
 
@@ -24,11 +25,11 @@ export function BrowserPane({ browserId }: BrowserPaneProps) {
 
   return (
     <View style={styles.container}>
-      <Text style={titleStyle}>Browser is desktop-only</Text>
+      <Text style={titleStyle}>{strings.browser.desktopOnly}</Text>
       <Text style={subtitleStyle}>
-        Open this workspace in Electron to use the built-in browser.
+        {strings.browser.openInElectron}
       </Text>
-      <Text style={subtitleStyle}>Browser session {browserId}</Text>
+      <Text style={subtitleStyle}>{strings.browser.session.replace("{id}", browserId)}</Text>
     </View>
   );
 }

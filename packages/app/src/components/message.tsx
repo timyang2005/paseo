@@ -105,6 +105,7 @@ import { useAttachmentPreviewUrl } from "@/attachments/use-attachment-preview-ur
 import { persistAttachmentFromBytes, persistAttachmentFromDataUrl } from "@/attachments/service";
 import type { DaemonClient } from "@getpaseo/client/internal/daemon-client";
 import { isWeb, isNative } from "@/constants/platform";
+import { strings } from "@/constants/strings-zh";
 import type { AgentCapabilityFlags } from "@getpaseo/protocol/agent-types";
 import { RewindMenu, type RewindMode } from "@/components/rewind/rewind-menu";
 import { useRewindAgentMutation } from "@/components/rewind/use-rewind-agent-mutation";

@@ -4,6 +4,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
 import { Check, X, XCircle } from "lucide-react-native";
 import { useDownloadStore, formatSpeed, formatEta, type Download } from "@/stores/download-store";
+import { strings } from "@/constants/strings-zh";
 
 const AUTO_DISMISS_DELAY = 3000;
 
@@ -12,10 +13,10 @@ function getDownloadStatusText(download: Download): string {
     if (download.progress) {
       return `${Math.round(download.progress.percent * 100)}% · ${formatSpeed(download.progress.speed)} · ${formatEta(download.progress.eta)}`;
     }
-    return "Starting...";
+    return strings.download.starting;
   }
-  if (download.status === "complete") return "Download complete";
-  return download.message ?? "Download failed";
+  if (download.status === "complete") return strings.download.complete;
+  return download.message ?? strings.download.failed;
 }
 
 export function DownloadToast() {

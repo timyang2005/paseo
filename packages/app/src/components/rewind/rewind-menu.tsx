@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { type RewindMode, useRewindCapabilities } from "./use-rewind-capabilities";
+import { strings } from "@/constants/strings-zh";
 import type { AgentCapabilityFlags } from "@getpaseo/protocol/agent-types";
 
 export type { RewindMode };
@@ -79,7 +80,7 @@ export const RewindMenu = memo(function RewindMenu({
   const tooltipContent = useMemo(
     () => (
       <TooltipContent side="top" align="center" offset={8}>
-        <Text style={styles.tooltipText}>Rewind to this message</Text>
+        <Text style={styles.tooltipText}>{strings.rewind.rewindTo}</Text>
       </TooltipContent>
     ),
     [],
@@ -95,7 +96,7 @@ export const RewindMenu = memo(function RewindMenu({
         <TooltipTrigger asChild>
           <View style={styles.triggerSlot} collapsable={false}>
             <DropdownMenuTrigger
-              accessibilityLabel="Rewind to this message"
+              accessibilityLabel={strings.rewind.rewindTo}
               accessibilityRole="button"
               disabled={isLocked}
               style={triggerStyle}
@@ -114,7 +115,7 @@ export const RewindMenu = memo(function RewindMenu({
       </Tooltip>
       <DropdownMenuContent align="end" minWidth={220} side="bottom" testID={`${testID}-content`}>
         <View style={styles.warningHeader}>
-          <Text style={styles.warningText}>This action cannot be undone</Text>
+          <Text style={styles.warningText}>{strings.rewind.cannotUndo}</Text>
         </View>
         <DropdownMenuSeparator />
         {items.map((item) => (

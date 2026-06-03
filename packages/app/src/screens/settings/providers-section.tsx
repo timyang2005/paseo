@@ -13,6 +13,7 @@ import { Switch } from "@/components/ui/switch";
 import { SettingsSection } from "@/screens/settings/settings-section";
 import { useProviderSettingsStore } from "@/stores/provider-settings-store";
 import { ChevronRight, Plus } from "lucide-react-native";
+import { strings } from "@/constants/strings-zh";
 
 type ProviderDefinition = ReturnType<typeof buildProviderDefinitions>[number];
 type ProviderEntry = NonNullable<ReturnType<typeof useProvidersSnapshot>["entries"]>[number];
@@ -26,17 +27,17 @@ interface ProviderStatus {
 }
 
 function getProviderStatus(status: string, enabled: boolean, modelCount: number): ProviderStatus {
-  if (!enabled) return { tone: "muted", label: "Disabled", modelCount: null };
-  if (status === "loading") return { tone: "loading", label: "Loading", modelCount: null };
-  if (status === "error") return { tone: "danger", label: "Error", modelCount: null };
+  if (!enabled) return { tone: "muted", label: strings.providers.disabled, modelCount: null };
+  if (status === "loading") return { tone: "loading", label: strings.providers.loading, modelCount: null };
+  if (status === "error") return { tone: "danger", label: strings.providers.error, modelCount: null };
   if (status === "ready") {
     return {
       tone: "success",
-      label: "Available",
+      label: strings.providers.available,
       modelCount: modelCount > 0 ? modelCount : null,
     };
   }
-  return { tone: "warning", label: "Not installed", modelCount: null };
+  return { tone: "warning", label: strings.providers.notInstalled, modelCount: null };
 }
 
 interface ProviderRowProps {
@@ -164,7 +165,7 @@ function StatusIndicator({ status }: { status: ProviderStatus }) {
         <>
           <Text style={styles.separator}>·</Text>
           <Text style={styles.statusLabel}>
-            {status.modelCount === 1 ? "1 model" : `${status.modelCount} models`}
+            {status.modelCount === 1 ? "1 model" : strings.providers.modelCount.replace('${count}', String(status.modelCount))}
           </Text>
         </>
       ) : null}
@@ -203,7 +204,7 @@ export function ProvidersSection({ serverId }: ProvidersSectionProps) {
         await patchConfig({ providers: { [providerId]: { enabled } } });
       } catch (error) {
         Alert.alert(
-          "Unable to update provider",
+          strings.providers.unableToUpdate,
           error instanceof Error ? error.message : String(error),
         );
       } finally {
@@ -226,7 +227,7 @@ export function ProvidersSection({ serverId }: ProvidersSectionProps) {
             testID="add-provider-button"
           >
             <Plus size={theme.iconSize.sm} color={theme.colors.foregroundMuted} />
-            <Text style={settingsStyles.sectionHeaderLinkText}>Add provider</Text>
+            <Text style={settingsStyles.sectionHeaderLinkText}>{strings.providers.addProvider}</Text>
           </Pressable>
         </View>
       ) : undefined,
@@ -242,19 +243,19 @@ export function ProvidersSection({ serverId }: ProvidersSectionProps) {
   return (
     <>
       <SettingsSection
-        title="Providers"
+        title={strings.providers.title}
         trailing={headerActions}
         testID="host-page-providers-card"
         style={styles.sectionSpacing}
       >
         {!hasServer || !isConnected ? (
           <View style={EMPTY_CARD_STYLE}>
-            <Text style={styles.emptyText}>Connect to this host to see providers</Text>
+            <Text style={styles.emptyText}>{strings.providers.connectToSee}</Text>
           </View>
         ) : null}
         {hasServer && isConnected && isLoading ? (
           <View style={EMPTY_CARD_STYLE}>
-            <Text style={styles.emptyText}>Loading...</Text>
+            <Text style={styles.emptyText}>{strings.providers.loadingText}</Text>
           </View>
         ) : null}
         {hasServer && isConnected && !isLoading && providerDefinitions.length > 0 ? (

@@ -29,6 +29,7 @@ import { createPreviewAttachmentId, getFileNameFromPath } from "@/attachments/ut
 import { explorerFileFromReadResult } from "@/file-explorer/read-result";
 import { resolveFilePreviewReadTarget } from "@/file-explorer/preview-target";
 import type { WorkspaceFileLocation } from "@/workspace/file-open";
+import { strings } from "@/constants/strings-zh";
 
 interface CodeLineProps {
   tokens: HighlightToken[];
@@ -261,7 +262,7 @@ function FilePreviewBody({
   if (!preview) {
     return (
       <View style={styles.centerState}>
-        <Text style={styles.emptyText}>No preview available</Text>
+        <Text style={styles.emptyText}>{strings.fileExplorer.noPreview}</Text>
       </View>
     );
   }
@@ -348,7 +349,7 @@ function FilePreviewBody({
       return (
         <View style={styles.centerState}>
           <ActivityIndicator size="small" />
-          <Text style={styles.loadingText}>Loading file…</Text>
+        <Text style={styles.loadingText}>{strings.fileExplorer.loadingFile}</Text>
         </View>
       );
     }
@@ -378,7 +379,7 @@ function FilePreviewBody({
 
   return (
     <View style={styles.centerState}>
-      <Text style={styles.emptyText}>Binary preview unavailable</Text>
+      <Text style={styles.emptyText}>{strings.fileExplorer.binaryPreview}</Text>
       <Text style={styles.binaryMetaText}>{formatFileSize({ size: preview.size })}</Text>
     </View>
   );

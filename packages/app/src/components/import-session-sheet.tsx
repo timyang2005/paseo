@@ -13,6 +13,7 @@ import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { SegmentedControl, type SegmentedControlOption } from "@/components/ui/segmented-control";
 import { getProviderIcon } from "@/components/provider-icons";
 import { formatTimeAgo } from "@/utils/time";
+import { strings } from "@/constants/strings-zh";
 import { useProvidersSnapshot } from "@/hooks/use-providers-snapshot";
 import {
   aggregateSessionEntries,
@@ -104,32 +105,32 @@ function SheetStatusMessages({
 }: SheetStatusMessagesProps) {
   const { theme } = useUnistyles();
   if (!isClientReady) {
-    return <Text style={styles.statusText}>Connect to a host to import sessions</Text>;
+    return <Text style={styles.statusText}>{strings.importSession.connectToImport}</Text>;
   }
   if (isSnapshotUnsupported) {
-    return <Text style={styles.statusText}>Update the host to import sessions.</Text>;
+    return <Text style={styles.statusText}>{strings.importSession.updateHost}</Text>;
   }
   return (
     <>
       {hasNoImportableProviders ? (
-        <Text style={styles.statusText}>No importable providers are enabled.</Text>
+        <Text style={styles.statusText}>{strings.importSession.noProviders}</Text>
       ) : null}
       {isLoadingSessions ? (
         <View style={styles.statusRow}>
           <LoadingSpinner color={theme.colors.foregroundMuted} />
-          <Text style={styles.statusText}>Loading recent sessions...</Text>
+          <Text style={styles.statusText}>{strings.importSession.loadingRecent}</Text>
         </View>
       ) : null}
       {allQueriesErrored ? (
-        <Text style={styles.statusText}>Could not load recent sessions.</Text>
+        <Text style={styles.statusText}>{strings.importSession.couldntLoad}</Text>
       ) : null}
       {!allQueriesErrored && erroredProviderLabels.length > 0 ? (
         <Text style={styles.statusText}>
-          Could not load sessions for {erroredProviderLabels.join(", ")}.
+          {strings.importSession.couldntLoadFor.replace("{names}", erroredProviderLabels.join(", "))}
         </Text>
       ) : null}
       {importErrored ? (
-        <Text style={styles.statusText}>Could not import selected session.</Text>
+        <Text style={styles.statusText}>{strings.importSession.couldntImport}</Text>
       ) : null}
     </>
   );
@@ -181,7 +182,7 @@ function buildProviderFilterOptions(
   providerLabelById: ReadonlyMap<string, string>,
 ): SegmentedControlOption<string>[] {
   const options: SegmentedControlOption<string>[] = [
-    { value: ALL_FILTER_VALUE, label: "All", testID: "import-session-filter-all" },
+    { value: ALL_FILTER_VALUE, label: strings.importSession.all, testID: "import-session-filter-all" },
   ];
   for (const provider of providers) {
     const ProviderIcon = getProviderIcon(provider);
@@ -246,7 +247,7 @@ function ImportSessionSheetRow({
           <Text style={styles.rowTitle} numberOfLines={1}>
             {title}
           </Text>
-          <Text style={styles.rowMeta}>{importing ? "Importing..." : lastActivity}</Text>
+          <Text style={styles.rowMeta}>{importing ? strings.importSession.importing : lastActivity}</Text>
         </View>
         <Text style={styles.rowPreview} numberOfLines={2}>
           {promptPreview}
@@ -384,7 +385,7 @@ export function ImportSessionSheet({
 
   const header = useMemo<SheetHeader>(
     () => ({
-      title: "Import session",
+      title: strings.importSession.title,
       actions: <RefreshAction isRefreshing={isRefreshing} onPress={handleRefresh} />,
     }),
     [isRefreshing, handleRefresh],

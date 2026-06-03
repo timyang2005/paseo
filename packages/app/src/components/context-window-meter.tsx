@@ -2,6 +2,7 @@ import { Pressable, Text, View } from "react-native";
 import Svg, { Circle } from "react-native-svg";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { strings } from "@/constants/strings-zh";
 
 interface ContextWindowMeterProps {
   maxTokens: number;
@@ -106,7 +107,7 @@ export function ContextWindowMeter({
         <Pressable
           style={containerStyle}
           accessibilityRole="image"
-          accessibilityLabel={`Context window ${roundedPercentage}% used`}
+          accessibilityLabel={`${strings.contextWindow.title} ${strings.contextWindow.used.replace("{percentage}", String(roundedPercentage))}`}
         >
           <Svg
             width={svgSize}
@@ -143,13 +144,13 @@ export function ContextWindowMeter({
       </TooltipTrigger>
       <TooltipContent side="top" align="center" offset={8}>
         <View style={styles.tooltipContent}>
-          <Text style={styles.tooltipTitle}>Context window</Text>
-          <Text style={styles.tooltipText}>{`${roundedPercentage}% used`}</Text>
+          <Text style={styles.tooltipTitle}>{strings.contextWindow.title}</Text>
+          <Text style={styles.tooltipText}>{strings.contextWindow.used.replace("{percentage}", String(roundedPercentage))}</Text>
           <Text
             style={styles.tooltipDetail}
-          >{`${formatTokenCount(usedTokens)} / ${formatTokenCount(maxTokens)} tokens`}</Text>
+          >{strings.contextWindow.tokens.replace("{used}", formatTokenCount(usedTokens)).replace("{max}", formatTokenCount(maxTokens))}</Text>
           {formattedSessionCost ? (
-            <Text style={styles.tooltipDetail}>{`Session cost ${formattedSessionCost}`}</Text>
+            <Text style={styles.tooltipDetail}>{strings.contextWindow.cost.replace("{cost}", formattedSessionCost)}</Text>
           ) : null}
         </View>
       </TooltipContent>

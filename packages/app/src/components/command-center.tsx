@@ -17,6 +17,7 @@ import { shortenPath } from "@/utils/shorten-path";
 import { AgentStatusDot } from "@/components/agent-status-dot";
 import { Shortcut } from "@/components/ui/shortcut";
 import { isNative } from "@/constants/platform";
+import { strings } from "@/constants/strings-zh";
 
 function agentKey(agent: Pick<AggregatedAgent, "serverId" | "id">): string {
   return `${agent.serverId}:${agent.id}`;
@@ -226,7 +227,7 @@ function AgentItemsSection({
   return (
     <>
       {actionItemsLength > 0 ? <View style={sectionDividerStyle} /> : null}
-      <Text style={sectionLabelStyle}>Agents</Text>
+      <Text style={sectionLabelStyle}>{strings.commandCenter.agents}</Text>
       {agentItems.map((item, index) => {
         const rowIndex = actionItemsLength + index;
         const agent = item.agent;
@@ -338,7 +339,7 @@ export function CommandCenter() {
               ref={inputRef}
               value={query}
               onChangeText={setQuery}
-              placeholder="Type a command or search agents..."
+              placeholder={strings.commandCenter.placeholder}
               placeholderTextColor={theme.colors.foregroundMuted}
               style={inputStyle}
               autoCapitalize="none"
@@ -355,12 +356,12 @@ export function CommandCenter() {
             showsVerticalScrollIndicator={false}
           >
             {items.length === 0 ? (
-              <Text style={emptyTextStyle}>No matches</Text>
+              <Text style={emptyTextStyle}>{strings.commandCenter.noMatches}</Text>
             ) : (
               <>
                 {actionItems.length > 0 ? (
                   <>
-                    <Text style={sectionLabelStyle}>Actions</Text>
+                    <Text style={sectionLabelStyle}>{strings.commandCenter.actions}</Text>
                     {actionItems.map((item, index) => (
                       <CommandCenterActionRow
                         key={`action:${item.action.id}`}

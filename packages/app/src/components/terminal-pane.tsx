@@ -30,6 +30,7 @@ import { useSessionStore } from "@/stores/session-store";
 import { toXtermTheme } from "@/utils/to-xterm-theme";
 import TerminalEmulator, { type TerminalEmulatorHandle } from "./terminal-emulator";
 import { useIsCompactFormFactor } from "@/constants/layout";
+import { strings } from "@/constants/strings-zh";
 import {
   applyTerminalRendererReadyChange,
   shouldReplayTerminalSnapshotForRenderer,
@@ -750,7 +751,7 @@ export function TerminalPane({
   if (!client || !isConnected) {
     return (
       <View style={styles.centerState}>
-        <Text style={styles.stateText}>Host is not connected</Text>
+        <Text style={styles.stateText}>{strings.workspace.hostNotConnected}</Text>
       </View>
     );
   }

@@ -44,6 +44,7 @@ import { formatTimeAgo } from "@/utils/time";
 import { buildAbsoluteExplorerPath } from "@/utils/explorer-paths";
 import { useWebScrollViewScrollbar } from "@/components/use-web-scrollbar";
 import { isWeb } from "@/constants/platform";
+import { strings } from "@/constants/strings-zh";
 
 const SORT_OPTIONS: { value: SortOption; label: string }[] = [
   { value: "name", label: "Name" },
@@ -453,7 +454,7 @@ export function FileExplorerPane({
   if (!hasWorkspaceScope) {
     return (
       <View style={styles.centerState}>
-        <Text style={styles.errorText}>Workspace is unavailable</Text>
+        <Text style={styles.errorText}>{strings.fileExplorer.workspaceUnavailable}</Text>
       </View>
     );
   }
@@ -529,11 +530,11 @@ function FileExplorerPaneContent(props: FileExplorerPaneContentProps) {
         <View style={styles.errorActions}>
           {showBackFromError ? (
             <Pressable style={styles.retryButton} onPress={handleBackFromError}>
-              <Text style={styles.retryButtonText}>Back</Text>
+              <Text style={styles.retryButtonText}>{strings.fileExplorer.back}</Text>
             </Pressable>
           ) : null}
           <Pressable style={styles.retryButton} onPress={handleRetry}>
-            <Text style={styles.retryButtonText}>Retry</Text>
+            <Text style={styles.retryButtonText}>{strings.fileExplorer.retry}</Text>
           </Pressable>
         </View>
       </View>
@@ -544,7 +545,7 @@ function FileExplorerPaneContent(props: FileExplorerPaneContentProps) {
     return (
       <View style={styles.centerState}>
         <ActivityIndicator size="small" />
-        <Text style={styles.loadingText}>Loading files…</Text>
+        <Text style={styles.loadingText}>{strings.fileExplorer.loadingFiles}</Text>
       </View>
     );
   }
@@ -552,7 +553,7 @@ function FileExplorerPaneContent(props: FileExplorerPaneContentProps) {
   if (treeRows.length === 0) {
     return (
       <View style={styles.centerState}>
-        <Text style={styles.emptyText}>No files</Text>
+        <Text style={styles.emptyText}>{strings.fileExplorer.noFiles}</Text>
       </View>
     );
   }

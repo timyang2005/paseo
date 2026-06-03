@@ -10,6 +10,7 @@ import { inlineUnistylesStyle } from "@/styles/unistyles-inline-style";
 import { getCodeInsets } from "./code-insets";
 import { CODE_SURFACE_DATASET } from "@/styles/code-surface";
 import { isWeb } from "@/constants/platform";
+import { strings } from "@/constants/strings-zh";
 
 const ScrollView = isWeb ? RNScrollView : GHScrollView;
 

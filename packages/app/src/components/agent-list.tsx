@@ -21,6 +21,7 @@ import { getProviderIcon } from "@/components/provider-icons";
 import { navigateToAgent } from "@/utils/navigate-to-agent";
 import type { Agent } from "@/stores/session-store";
 import { useArchiveAgent } from "@/hooks/use-archive-agent";
+import { strings } from "@/constants/strings-zh";
 
 interface AgentListProps {
   agents: AggregatedAgent[];
@@ -454,8 +455,8 @@ export function AgentList({
             <View style={styles.sheetHandle} />
             <Text style={styles.sheetTitle}>
               {isActionDaemonUnavailable
-                ? "Host offline"
-                : "This agent is still running. Archiving it will stop the agent."}
+                ? strings.agentList.hostOffline
+                : strings.agentList.archiveWarning}
             </Text>
             <View style={styles.sheetButtonRow}>
               <Pressable
@@ -463,7 +464,7 @@ export function AgentList({
                 onPress={handleCloseActionSheet}
                 testID="agent-action-cancel"
               >
-                <Text style={styles.sheetCancelText}>Cancel</Text>
+                <Text style={styles.sheetCancelText}>{strings.agentList.cancel}</Text>
               </Pressable>
               <Pressable
                 disabled={isActionDaemonUnavailable}
@@ -471,7 +472,7 @@ export function AgentList({
                 onPress={handleArchiveAgent}
                 testID="agent-action-archive"
               >
-                <Text style={sheetArchiveTextStyle}>Archive</Text>
+                <Text style={sheetArchiveTextStyle}>{strings.agentList.archive}</Text>
               </Pressable>
             </View>
           </View>

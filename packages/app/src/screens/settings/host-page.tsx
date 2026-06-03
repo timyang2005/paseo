@@ -28,6 +28,7 @@ import type { HostConnection, HostProfile } from "@/types/host-connection";
 import { confirmDialog } from "@/utils/confirm-dialog";
 import { formatConnectionStatus, getConnectionStatusTone } from "@/utils/daemons";
 import { formatLatency } from "@/utils/latency";
+import { strings } from "@/constants/strings-zh";
 
 const RESTART_CONFIRMATION_MESSAGE =
   "This will restart the daemon. Agents running on it will keep going; the app will reconnect automatically.";
@@ -50,13 +51,13 @@ function formatActiveConnectionBadge(
   if (activeConnection.type === "relay") {
     return {
       icon: <Globe size={theme.iconSize.sm} color={theme.colors.foregroundMuted} />,
-      text: "Relay",
+      text: strings.host.relay,
     };
   }
   if (activeConnection.type === "directSocket" || activeConnection.type === "directPipe") {
     return {
       icon: <Monitor size={theme.iconSize.sm} color={theme.colors.foregroundMuted} />,
-      text: "Local",
+      text: strings.host.local,
     };
   }
   return {
@@ -71,8 +72,8 @@ function formatDaemonVersionBadge(version: string | null): string | null {
   return trimmed.startsWith("v") ? trimmed : `v${trimmed}`;
 }
 
-const REMOVE_CONNECTION_HEADER: SheetHeader = { title: "Remove connection" };
-const REMOVE_HOST_HEADER: SheetHeader = { title: "Remove host" };
+const REMOVE_CONNECTION_HEADER: SheetHeader = { title: strings.host.removeConnection };
+const REMOVE_HOST_HEADER: SheetHeader = { title: strings.host.removeHost };
 
 function useHostProfile(serverId: string): HostProfile | null {
   const daemons = useHosts();
@@ -83,7 +84,7 @@ function HostNotFound() {
   return (
     <View>
       <View style={EMPTY_CARD_STYLE}>
-        <Text style={styles.emptyText}>Host not found</Text>
+        <Text style={styles.emptyText}>{strings.host.notFound}</Text>
       </View>
     </View>
   );
@@ -180,7 +181,7 @@ export function HostConnectionsPage({ serverId }: { serverId: string }) {
       <HostConnectionError serverId={serverId} />
       <ConnectionsSection host={host} />
       {isLocalDaemon ? (
-        <SettingsSection title="Pair devices">
+        <SettingsSection title={strings.host.pairDevices}>
           <PairDeviceRow />
         </SettingsSection>
       ) : null}
@@ -199,13 +200,13 @@ export function HostOrchestrationPage({ serverId }: { serverId: string }) {
   return (
     <View>
       {isConnected ? (
-        <SettingsSection title="Orchestration">
+        <SettingsSection title={strings.host.orchestration}>
           <InjectPaseoToolsCard serverId={serverId} />
           <AppendSystemPromptCard serverId={serverId} />
         </SettingsSection>
       ) : (
         <View style={EMPTY_CARD_STYLE}>
-          <Text style={styles.emptyText}>Connect to this host to manage orchestration</Text>
+          <Text style={styles.emptyText}>{strings.host.connectToManage}</Text>
         </View>
       )}
     </View>
@@ -290,10 +291,10 @@ export function HostRenameButton({ host }: { host: HostProfile }) {
 
       <AdaptiveRenameModal
         visible={isEditing}
-        title="Rename host"
+        title={strings.host.renameHost}
         initialValue={host.label}
-        placeholder="My Host"
-        submitLabel="Save"
+        placeholder={strings.host.myHost}
+        submitLabel={strings.host.save}
         onClose={closeEditor}
         onSubmit={handleSubmit}
         testID="host-page-rename-modal"
@@ -332,17 +333,17 @@ function ConnectionsSection({ host }: { host: HostProfile }) {
     if (!pendingRemoveConnection) return;
     const { connectionId } = pendingRemoveConnection;
     setIsRemovingConnection(true);
-    void removeConnection(host.serverId, connectionId)
+      void removeConnection(host.serverId, connectionId)
       .then(() => setPendingRemoveConnection(null))
       .catch((error) => {
         console.error("[HostPage] Failed to remove connection", error);
-        Alert.alert("Error", "Unable to remove connection");
+        Alert.alert("Error", strings.host.unableToRemoveConnection);
       })
       .finally(() => setIsRemovingConnection(false));
   }, [pendingRemoveConnection, removeConnection, host.serverId]);
 
   return (
-    <SettingsSection title="Connections">
+        <SettingsSection title={strings.host.connections}>
       <View style={settingsStyles.card} testID="host-page-connections-card">
         {host.connections.map((conn, index) => {
           const probe = probeByConnectionId.get(conn.id);
@@ -368,7 +369,7 @@ function ConnectionsSection({ host }: { host: HostProfile }) {
           testID="remove-connection-confirm-modal"
         >
           <Text style={styles.confirmText}>
-            Remove {pendingRemoveConnection.title}? This cannot be undone.
+            {strings.host.removeConnection}? This cannot be undone.
           </Text>
           <View style={styles.confirmActions}>
             <Button
@@ -378,7 +379,7 @@ function ConnectionsSection({ host }: { host: HostProfile }) {
               onPress={handleCancelConfirm}
               disabled={isRemovingConnection}
             >
-              Cancel
+              {strings.host.cancel}
             </Button>
             <Button
               variant="destructive"
@@ -388,7 +389,7 @@ function ConnectionsSection({ host }: { host: HostProfile }) {
               disabled={isRemovingConnection}
               testID="remove-connection-confirm"
             >
-              Remove
+              {strings.host.remove}
             </Button>
           </View>
         </AdaptiveModalSheet>
@@ -508,8 +509,8 @@ function RestartDaemonCard({ host }: { host: HostProfile }) {
       setIsRestarting(false);
       if (!reconnected) {
         Alert.alert(
-          "Unable to reconnect",
-          `${host.label} did not come back online. Please verify it restarted.`,
+          strings.host.unableToReconnect,
+          strings.host.didNotComeBack.replace('${host.label}', host.label),
         );
       }
     }
@@ -518,15 +519,15 @@ function RestartDaemonCard({ host }: { host: HostProfile }) {
   const handleRestart = useCallback(() => {
     if (!daemonClient) {
       Alert.alert(
-        "Host unavailable",
-        "This host is not connected. Wait for it to come online before restarting.",
+        strings.host.hostUnavailable,
+        strings.host.hostUnavailableMsg,
       );
       return;
     }
     if (!isHostConnected()) {
       Alert.alert(
-        "Host offline",
-        "This host is offline. Paseo reconnects automatically—wait until it's back online before restarting.",
+        strings.host.hostOffline,
+        strings.host.hostOfflineMsg,
       );
       return;
     }
@@ -549,7 +550,7 @@ function RestartDaemonCard({ host }: { host: HostProfile }) {
             setIsRestarting(false);
             Alert.alert(
               "Error",
-              "Failed to send the restart request. Paseo reconnects automatically—try again once the host shows as online.",
+              strings.host.failedRestart,
             );
           });
         void waitForDaemonRestart();
@@ -557,7 +558,7 @@ function RestartDaemonCard({ host }: { host: HostProfile }) {
       })
       .catch((error) => {
         console.error(`[HostPage] Failed to open restart confirmation for ${host.label}`, error);
-        Alert.alert("Error", "Unable to open the restart confirmation dialog.");
+        Alert.alert("Error", strings.host.unableToOpenRestart);
       });
   }, [daemonClient, host.label, host.serverId, isHostConnected, waitForDaemonRestart]);
 
@@ -570,9 +571,9 @@ function RestartDaemonCard({ host }: { host: HostProfile }) {
     <View style={settingsStyles.card} testID="host-page-restart-card">
       <View style={settingsStyles.row}>
         <View style={settingsStyles.rowContent}>
-          <Text style={settingsStyles.rowTitle}>Restart daemon</Text>
-          <Text style={settingsStyles.rowHint}>
-            Restarts the daemon process. The app will reconnect automatically
+            <Text style={settingsStyles.rowTitle}>{strings.host.restartDaemon}</Text>
+            <Text style={settingsStyles.rowHint}>
+              {strings.host.restartHint}
           </Text>
         </View>
         <Button
@@ -583,7 +584,7 @@ function RestartDaemonCard({ host }: { host: HostProfile }) {
           disabled={isRestarting || !daemonClient || !isConnected}
           testID="host-page-restart-button"
         >
-          {isRestarting ? "Restarting..." : "Restart"}
+          {isRestarting ? strings.host.restarting : strings.host.restart}
         </Button>
       </View>
     </View>
@@ -611,9 +612,9 @@ function InjectPaseoToolsCard({ serverId }: { serverId: string }) {
     <View style={settingsStyles.card} testID="host-page-inject-mcp-card">
       <View style={settingsStyles.row}>
         <View style={settingsStyles.rowContent}>
-          <Text style={settingsStyles.rowTitle}>Enable Paseo tools</Text>
+          <Text style={settingsStyles.rowTitle}>{strings.host.enablePaseoTools}</Text>
           <Text style={settingsStyles.rowHint}>
-            Agents will be able to manage worktrees, agents and schedules
+            {strings.host.enablePaseoToolsHint}
           </Text>
         </View>
         <Switch
@@ -676,8 +677,8 @@ function AppendSystemPromptCard({ serverId }: { serverId: string }) {
       <View style={settingsStyles.card} testID="host-page-append-system-prompt-card">
         <View style={settingsStyles.row}>
           <View style={settingsStyles.rowContent}>
-            <Text style={settingsStyles.rowTitle}>System prompt</Text>
-            <Text style={settingsStyles.rowHint}>Adds a system prompt to all agents</Text>
+            <Text style={settingsStyles.rowTitle}>{strings.host.systemPrompt}</Text>
+            <Text style={settingsStyles.rowHint}>{strings.host.systemPromptHint}</Text>
           </View>
           <Button
             variant="outline"
@@ -685,7 +686,7 @@ function AppendSystemPromptCard({ serverId }: { serverId: string }) {
             onPress={handleOpen}
             testID="host-page-append-system-prompt-edit"
           >
-            Edit
+            {strings.host.edit}
           </Button>
         </View>
       </View>
@@ -703,7 +704,7 @@ function AppendSystemPromptCard({ serverId }: { serverId: string }) {
             accessibilityLabel="Append system prompt"
             value={draft}
             onChangeText={setDraft}
-            placeholder="Always keep replies concise."
+            placeholder={strings.host.placeholder}
           />
           <View style={styles.appendPromptActions}>
             <Button
@@ -713,7 +714,7 @@ function AppendSystemPromptCard({ serverId }: { serverId: string }) {
               disabled={!hasChanges || isSaving}
               testID="host-page-append-system-prompt-reset"
             >
-              Reset
+              {strings.host.reset}
             </Button>
             <Button
               variant="default"
@@ -722,7 +723,7 @@ function AppendSystemPromptCard({ serverId }: { serverId: string }) {
               disabled={!hasChanges || isSaving}
               testID="host-page-append-system-prompt-save"
             >
-              {isSaving ? "Saving..." : "Save"}
+              {isSaving ? strings.host.saving : strings.host.save}
             </Button>
           </View>
         </AdaptiveModalSheet>
@@ -747,9 +748,9 @@ function PairDeviceRow() {
         testID="host-page-pair-device-row"
       >
         <View style={settingsStyles.rowContent}>
-          <Text style={settingsStyles.rowTitle}>Pair a device</Text>
+          <Text style={settingsStyles.rowTitle}>{strings.host.pairADevice}</Text>
           <Text style={settingsStyles.rowHint}>
-            Scan a QR code or copy a link to connect your phone to this host
+            {strings.host.pairHint}
           </Text>
         </View>
         <ChevronRight size={theme.iconSize.sm} color={theme.colors.foregroundMuted} />
@@ -791,7 +792,7 @@ function RemoveHostSection({ host, onRemoved }: { host: HostProfile; onRemoved?:
       })
       .catch((error) => {
         console.error("[HostPage] Failed to remove host", error);
-        Alert.alert("Error", "Unable to remove host");
+        Alert.alert("Error", strings.host.unableToRemoveHost);
       })
       .finally(() => setIsRemoving(false));
   }, [host.serverId, onRemoved, removeHost]);
@@ -802,15 +803,15 @@ function RemoveHostSection({ host, onRemoved }: { host: HostProfile; onRemoved?:
   );
 
   return (
-    <SettingsSection title="Danger zone" testID="host-page-remove-host-card">
+    <SettingsSection title={strings.host.dangerZone} testID="host-page-remove-host-card">
       <RestartDaemonCard host={host} />
 
       <View style={settingsStyles.card}>
         <View style={settingsStyles.row}>
           <View style={settingsStyles.rowContent}>
-            <Text style={settingsStyles.rowTitle}>Remove host</Text>
+            <Text style={settingsStyles.rowTitle}>{strings.host.removeHost}</Text>
             <Text style={settingsStyles.rowHint}>
-              Removes this host and its saved connections from this device
+              {strings.host.removeHostHint}
             </Text>
           </View>
           <Button
@@ -834,7 +835,7 @@ function RemoveHostSection({ host, onRemoved }: { host: HostProfile; onRemoved?:
           testID="remove-host-confirm-modal"
         >
           <Text style={styles.confirmText}>
-            Remove {host.label}? This will delete its saved connections.
+            {strings.host.removeHostConfirm.replace('${host.label}', host.label)}
           </Text>
           <View style={styles.confirmActions}>
             <Button

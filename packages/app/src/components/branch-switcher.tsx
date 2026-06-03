@@ -10,6 +10,7 @@ import { useHostRuntimeClient, useHostRuntimeIsConnected } from "@/runtime/host-
 import { useToast } from "@/contexts/toast-context";
 import { useBranchSwitcher } from "@/hooks/use-branch-switcher";
 import { ScreenTitle } from "@/components/headers/screen-title";
+import { strings } from "@/constants/strings-zh";
 
 interface BranchSwitcherProps {
   currentBranchName: string | null;
@@ -91,7 +92,7 @@ export function BranchSwitcher({
         onPress={handleOpen}
         style={triggerStyle}
         accessibilityRole="button"
-        accessibilityLabel={`Current branch: ${currentBranchName}. Press to switch branch.`}
+        accessibilityLabel={strings.branch.currentBranch.replace("${name}", currentBranchName ?? "")}
       >
         {titleContent}
         {!isCompact ? <ChevronDown size={12} color={theme.colors.foregroundMuted} /> : null}
@@ -101,10 +102,10 @@ export function BranchSwitcher({
         value={currentBranchName}
         onSelect={handleBranchSelect}
         searchable
-        placeholder="Switch branch..."
-        searchPlaceholder="Filter branches..."
-        emptyText="No branches found."
-        title="Switch branch"
+        placeholder={strings.branch.switchBranch}
+        searchPlaceholder={strings.branch.filterBranches}
+        emptyText={strings.branch.noBranches}
+        title={strings.branch.switchTitle}
         open={isOpen}
         onOpenChange={setIsOpen}
         anchorRef={anchorRef}

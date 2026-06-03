@@ -13,6 +13,7 @@ import { Check, CircleHelp, X } from "lucide-react-native";
 import type { PendingPermission } from "@/types/shared";
 import type { AgentPermissionResponse } from "@getpaseo/protocol/agent-types";
 import { isWeb } from "@/constants/platform";
+import { strings } from "@/constants/strings-zh";
 import {
   areQuestionsAnswered,
   buildQuestionFormAnswers,
@@ -244,7 +245,7 @@ export function QuestionFormCard({ permission, onRespond, isResponding }: Questi
     }
     onRespond({
       behavior: "deny",
-      message: "Dismissed by user",
+      message: strings.questionForm.dismissed,
     });
   }, [questions, onRespond, otherTexts, permission.request.input, selections]);
 
@@ -377,7 +378,7 @@ export function QuestionFormCard({ permission, onRespond, isResponding }: Questi
           ) : (
             <View style={styles.actionContent}>
               <Check size={14} color={submitActionTextColor} />
-              <Text style={submitActionTextStyle}>Submit</Text>
+              <Text style={submitActionTextStyle}>{strings.questionForm.submit}</Text>
             </View>
           )}
         </Pressable>

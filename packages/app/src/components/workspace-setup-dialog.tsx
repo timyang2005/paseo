@@ -25,6 +25,7 @@ import { requireWorkspaceExecutionAuthority } from "@/utils/workspace-execution"
 import { navigateToAgent } from "@/utils/navigate-to-agent";
 import { navigateToPreparedWorkspaceTab } from "@/utils/workspace-navigation";
 import type { ImageAttachment, MessagePayload } from "@/composer/types";
+import { strings } from "@/constants/strings-zh";
 
 function toProjectIconDataUri(icon: { mimeType: string; data: string } | null): string | null {
   if (!icon) {
@@ -392,7 +393,7 @@ export function WorkspaceSetupDialog() {
   );
 
   const sheetHeader = useMemo<SheetHeader>(
-    () => ({ title: "Create workspace", subtitle: subtitleContent }),
+    () => ({ title: strings.newWorkspace.title, subtitle: subtitleContent }),
     [subtitleContent],
   );
 
