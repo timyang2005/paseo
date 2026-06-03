@@ -1,0 +1,76 @@
+name: Build Chinese APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "17"
+
+      - name: Increase Gradle memory
+        run: |
+          mkdir -p ~/.gradle
+          echo "org.gradle.jvmargs=-Xmx4g -XX:MaxMetaspaceSize=1g -XX:+HeapDumpOnOutOfMemoryError" > ~/.gradle/gradle.properties
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm run build:app-deps
+
+      - name: Expo prebuild
+        run: |
+          cd packages/app
+          npx cross-env APP_VARIANT=production expo prebuild --platform android
+
+      - name: Build JS Bundle
+        run: |
+          cd packages/app
+          npx cross-env APP_VARIANT=production expo export --platform android
+
+      - name: Prepare bundle
+        run: |
+          mkdir -p packages/app/android/app/build/generated/assets/createBundleReleaseJsAndAssets
+          cp packages/app/dist/_expo/static/js/android/*.hbc packages/app/android/app/build/generated/assets/createBundleReleaseJsAndAssets/
+          cp packages/app/dist/metadata.json packages/app/android/app/build/generated/assets/createBundleReleaseJsAndAssets/ 2>/dev/null || true
+
+      - name: Build APK
+        run: |
+          cd packages/app/android
+          chmod +x gradlew
+          ./gradlew assembleRelease
+
+      - name: Get version
+        id: version
+        run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+
+      - name: Create Release and Upload APK
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="v${{ steps.version.outputs.version }}-zh"
+          gh release create "$TAG" \
+            --title "Paseo $TAG 涓枃鐗? \
+            --notes "## Paseo 涓枃缈昏瘧鐗?
+          - 瀹屾暣涓枃鐣岄潰缈昏瘧锛?00+ 瀛楃涓诧級
+          - 搴旂敤鍚嶇О锛歅aseo - AI 浠ｇ悊鐩戞帶
+
+          鍩轰簬 [getpaseo/paseo](https://github.com/getpaseo/paseo) v${{ steps.version.outputs.version }} 鏋勫缓" \
+            packages/app/android/app/build/outputs/apk/release/app-release.apk#paseo-chinese.apk
