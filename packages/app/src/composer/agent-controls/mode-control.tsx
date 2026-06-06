@@ -7,6 +7,7 @@ import {
   type ComponentType,
   type ReactElement,
 } from "react";
+import { strings } from "@/constants/strings-zh";
 import { Pressable, Text, View, type PressableStateCallbackType } from "react-native";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
 import { useShallow } from "zustand/shallow";
@@ -182,10 +183,10 @@ function AgentModeControlView({
 
   const sheetHeader = useMemo<SheetHeader>(
     () => ({
-      title: "Mode",
+      title: strings.agentControls.mode,
       search: {
         onChange: setSearchQuery,
-        placeholder: "Search modes...",
+        placeholder: strings.agentControls.searchModes,
         testID: "mode-search-input",
       },
     }),
@@ -360,3 +361,4 @@ const styles = StyleSheet.create((theme) => ({
     fontWeight: theme.fontWeight.normal,
   },
 }));
+

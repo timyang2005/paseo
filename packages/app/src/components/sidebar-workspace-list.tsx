@@ -27,6 +27,7 @@ import {
   type MutableRefObject,
   type Ref,
 } from "react";
+import { strings } from "@/constants/strings-zh";
 import { router, usePathname, type Href } from "expo-router";
 import {
   navigateToWorkspace,
@@ -743,7 +744,7 @@ function WorkspaceKebabMenu({
         hitSlop={8}
         style={workspaceKebabStyle}
         accessibilityRole={platformIsWeb ? undefined : "button"}
-        accessibilityLabel="Workspace actions"
+        accessibilityLabel=strings.workspace.workspaceActions
         testID={`sidebar-workspace-kebab-${workspaceKey}`}
       >
         {renderKebabTriggerIcon}
@@ -1712,7 +1713,7 @@ function WorkspaceRowWithMenu({
       />
       <AdaptiveRenameModal
         visible={isRenameOpen}
-        title="Rename workspace"
+        title=strings.sidebar.renameWorkspace
         initialValue={workspace.name}
         placeholder="branch-name"
         submitLabel="Rename"
@@ -3075,3 +3076,4 @@ function getStatusDotColorStyle(bucket: SidebarStateBucket): ViewStyle | null {
       return null;
   }
 }
+

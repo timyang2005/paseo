@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { strings } from "@/constants/strings-zh";
 import { Text, View } from "react-native";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
 import { LoadingSpinner } from "@/components/ui/loading-spinner";
@@ -65,3 +66,4 @@ const styles = StyleSheet.create((theme) => ({
     fontSize: theme.fontSize.sm,
   },
 }));
+

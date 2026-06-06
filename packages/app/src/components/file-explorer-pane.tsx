@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, type ReactElement, type RefObject } from "react";
+import { strings } from "@/constants/strings-zh";
 import { useQuery } from "@tanstack/react-query";
 import {
   ActivityIndicator,
@@ -1217,3 +1218,4 @@ function IndentGuide({ index }: IndentGuideProps) {
   );
   return <View style={guideStyle} />;
 }
+

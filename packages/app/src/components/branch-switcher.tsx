@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useRef } from "react";
+import { strings } from "@/constants/strings-zh";
 import { Pressable, View, type PressableStateCallbackType } from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
 import { ChevronDown, GitBranch } from "lucide-react-native";
@@ -101,9 +102,9 @@ export function BranchSwitcher({
         value={currentBranchName}
         onSelect={handleBranchSelect}
         searchable
-        placeholder="Switch branch..."
+        placeholder=strings.branch.switchBranch
         searchPlaceholder="Filter branches..."
-        emptyText="No branches found."
+        emptyText=strings.branch.noBranches
         title="Switch branch"
         open={isOpen}
         onOpenChange={setIsOpen}
@@ -146,3 +147,4 @@ const styles = StyleSheet.create((theme) => ({
     overflow: "hidden",
   },
 }));
+

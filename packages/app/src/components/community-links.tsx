@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+import { strings } from "@/constants/strings-zh";
 import { View } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
 import { Heart } from "lucide-react-native";
@@ -64,3 +65,4 @@ const styles = StyleSheet.create(() => ({
     gap: 0,
   },
 }));
+

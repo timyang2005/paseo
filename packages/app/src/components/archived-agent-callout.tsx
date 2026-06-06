@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
+import { strings } from "@/constants/strings-zh";
 import { View, Text } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
 import Animated from "react-native-reanimated";
@@ -100,3 +101,4 @@ const styles = StyleSheet.create((theme: Theme) => ({
     fontSize: theme.fontSize.base,
   },
 })) as unknown as Record<string, object>;
+

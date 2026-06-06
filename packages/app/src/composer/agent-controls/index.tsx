@@ -8,6 +8,7 @@ import {
   type ReactNode,
   type RefObject,
 } from "react";
+import { strings } from "@/constants/strings-zh";
 import {
   View,
   Text,
@@ -69,7 +70,7 @@ interface AgentControlOption {
   label: string;
 }
 
-type AgentControlSelector = "provider" | "mode" | "model" | "thinking" | `feature-${string}`;
+type AgentControlSelector = strings.agentControls.provider | strings.agentControls.mode | "model" | strings.agentControls.thinking | `feature-${string}`;
 
 interface ControlledAgentControlsProps {
   provider: string;
@@ -191,7 +192,7 @@ function shortModelLabel(label: string): string {
   return i === -1 ? label : label.slice(i + 1);
 }
 
-type ActiveSheet = "thinking" | "features" | null;
+type ActiveSheet = strings.agentControls.thinking | strings.agentControls.features | null;
 
 function resolveHasAnyControl({
   providerOptions,
@@ -432,7 +433,7 @@ function ControlledAgentControls({
     onSelectThinkingOption && thinkingOptions && thinkingOptions.length > 0,
   );
 
-  const displayProvider = findOptionLabel(providerOptions, selectedProviderId, "Provider");
+  const displayProvider = findOptionLabel(providerOptions, selectedProviderId, strings.agentControls.provider);
   const formattedThinkingOptions = useMemo(
     () => toThinkingControlOptions(thinkingOptions),
     [thinkingOptions],
@@ -440,7 +441,7 @@ function ControlledAgentControls({
   const displayThinking = findOptionLabel(
     formattedThinkingOptions,
     selectedThinkingOptionId,
-    formattedThinkingOptions[0]?.label ?? "Unknown",
+    formattedThinkingOptions[0]?.label ?? strings.agentControls.unknown,
   );
 
   const ProviderIcon = resolveProviderIcon(provider);
@@ -489,15 +490,15 @@ function ControlledAgentControls({
   );
 
   const handleProviderPress = useCallback(() => {
-    handleOpenChange("provider")(openSelector !== "provider");
+    handleOpenChange(strings.agentControls.provider)(openSelector !== strings.agentControls.provider);
   }, [handleOpenChange, openSelector]);
 
   const handleThinkingPress = useCallback(() => {
-    handleOpenChange("thinking")(openSelector !== "thinking");
+    handleOpenChange(strings.agentControls.thinking)(openSelector !== strings.agentControls.thinking);
   }, [handleOpenChange, openSelector]);
 
-  const handleProviderOpenChange = useMemo(() => handleOpenChange("provider"), [handleOpenChange]);
-  const handleThinkingOpenChange = useMemo(() => handleOpenChange("thinking"), [handleOpenChange]);
+  const handleProviderOpenChange = useMemo(() => handleOpenChange(strings.agentControls.provider), [handleOpenChange]);
+  const handleThinkingOpenChange = useMemo(() => handleOpenChange(strings.agentControls.thinking), [handleOpenChange]);
 
   const handleProviderSelect = useCallback(
     (id: string) => onSelectProvider?.(id),
@@ -521,7 +522,7 @@ function ControlledAgentControls({
         styles.modeBadge,
         styles.disabledBadge,
         disabled || !canSelectProvider,
-        openSelector === "provider",
+        openSelector === strings.agentControls.provider,
       ),
     [canSelectProvider, disabled, openSelector],
   );
@@ -532,7 +533,7 @@ function ControlledAgentControls({
         styles.modeBadge,
         styles.disabledBadge,
         disabled || !canSelectThinking,
-        openSelector === "thinking",
+        openSelector === strings.agentControls.thinking,
       ),
     [canSelectThinking, disabled, openSelector],
   );
@@ -764,7 +765,7 @@ function DesktopAgentControlsContent(props: DesktopAgentControlsContentProps) {
             onPress={handleProviderPress}
             style={providerPressableStyle}
             accessibilityRole="button"
-            accessibilityLabel="Select agent provider"
+            accessibilityLabel=strings.agentControls.selectProvider
             testID="agent-provider-selector"
           >
             <Text style={styles.modeBadgeText}>{displayProvider}</Text>
@@ -775,7 +776,7 @@ function DesktopAgentControlsContent(props: DesktopAgentControlsContentProps) {
             value={selectedProviderId ?? ""}
             onSelect={handleProviderSelect}
             searchable={comboboxProviderOptions.length > DESKTOP_SEARCH_THRESHOLD}
-            open={openSelector === "provider"}
+            open={openSelector === strings.agentControls.provider}
             onOpenChange={handleProviderOpenChange}
             anchorRef={providerAnchorRef}
             desktopPlacement="top-start"
@@ -830,7 +831,7 @@ function DesktopAgentControlsContent(props: DesktopAgentControlsContentProps) {
               </Pressable>
             </TooltipTrigger>
             <TooltipContent side="top" align="center" offset={8}>
-              <Text style={styles.tooltipText}>{getAgentControlHint("thinking")}</Text>
+              <Text style={styles.tooltipText}>{getAgentControlHint(strings.agentControls.thinking)}</Text>
             </TooltipContent>
           </Tooltip>
           <Combobox
@@ -838,7 +839,7 @@ function DesktopAgentControlsContent(props: DesktopAgentControlsContentProps) {
             value={selectedThinkingOptionId ?? ""}
             onSelect={handleThinkingSelect}
             searchable={comboboxThinkingOptions.length > DESKTOP_SEARCH_THRESHOLD}
-            open={openSelector === "thinking"}
+            open={openSelector === strings.agentControls.thinking}
             onOpenChange={handleThinkingOpenChange}
             anchorRef={thinkingAnchorRef}
             desktopPlacement="top-start"
@@ -937,12 +938,12 @@ function SheetAgentControlsContent(props: SheetAgentControlsContentProps) {
   const hasThinking = comboboxThinkingOptions.length > 0;
   const hasFeatures = Boolean(features && features.length > 0);
 
-  const handleOpenThinking = useCallback(() => handleOpenSheet("thinking"), [handleOpenSheet]);
-  const handleOpenFeatures = useCallback(() => handleOpenSheet("features"), [handleOpenSheet]);
+  const handleOpenThinking = useCallback(() => handleOpenSheet(strings.agentControls.thinking), [handleOpenSheet]);
+  const handleOpenFeatures = useCallback(() => handleOpenSheet(strings.agentControls.features), [handleOpenSheet]);
   const handleThinkingSheetOpenChange = useCallback(
     (nextOpen: boolean) => {
       if (nextOpen) {
-        handleOpenSheet("thinking");
+        handleOpenSheet(strings.agentControls.thinking);
       } else {
         handleCloseSheet();
       }
@@ -975,13 +976,13 @@ function SheetAgentControlsContent(props: SheetAgentControlsContentProps) {
     styles.modeIconBadge,
     styles.disabledBadge,
     disabled || !canSelectThinking,
-    activeSheet === "thinking",
+    activeSheet === strings.agentControls.thinking,
   );
   const featuresButtonStyle = makeBadgePressableStyle(
     styles.modeIconBadge,
     styles.disabledBadge,
     disabled,
-    activeSheet === "features",
+    activeSheet === strings.agentControls.features,
   );
 
   return (
@@ -1012,7 +1013,7 @@ function SheetAgentControlsContent(props: SheetAgentControlsContentProps) {
           disabled={disabled || !canSelectThinking}
           style={thinkingButtonStyle}
           accessibilityRole="button"
-          accessibilityLabel="Select thinking option"
+          accessibilityLabel=strings.agentControls.selectThinking
           testID="agent-controls-thinking"
         >
           <Brain size={theme.iconSize.md} color={theme.colors.foregroundMuted} />
@@ -1025,7 +1026,7 @@ function SheetAgentControlsContent(props: SheetAgentControlsContentProps) {
           disabled={disabled}
           style={featuresButtonStyle}
           accessibilityRole="button"
-          accessibilityLabel="Open agent features"
+          accessibilityLabel=strings.agentControls.openFeatures
           testID="agent-controls-features"
         >
           <Settings2 size={theme.iconSize.md} color={theme.colors.foregroundMuted} />
@@ -1038,8 +1039,8 @@ function SheetAgentControlsContent(props: SheetAgentControlsContentProps) {
           value={selectedThinkingOptionId ?? ""}
           onSelect={handleSelectThinkingAndClose}
           searchable={false}
-          title="Thinking"
-          open={activeSheet === "thinking"}
+          title=strings.agentControls.thinking
+          open={activeSheet === strings.agentControls.thinking}
           onOpenChange={handleThinkingSheetOpenChange}
           anchorRef={thinkingAnchorRef}
           renderOption={renderThinkingOption}
@@ -1048,7 +1049,7 @@ function SheetAgentControlsContent(props: SheetAgentControlsContentProps) {
 
       <AdaptiveModalSheet
         header={FEATURES_SHEET_HEADER}
-        visible={activeSheet === "features"}
+        visible={activeSheet === strings.agentControls.features}
         onClose={handleCloseSheet}
         testID="agent-features-sheet"
       >
@@ -1344,7 +1345,7 @@ function ThinkingComboboxOption({
   );
 }
 
-const FEATURES_SHEET_HEADER: SheetHeader = { title: "Features" };
+const FEATURES_SHEET_HEADER: SheetHeader = { title: strings.agentControls.features };
 
 export const AgentControls = memo(function AgentControls({
   agentId,
@@ -1805,3 +1806,4 @@ const styles = StyleSheet.create((theme) => ({
     fontWeight: theme.fontWeight.semibold,
   },
 }));
+

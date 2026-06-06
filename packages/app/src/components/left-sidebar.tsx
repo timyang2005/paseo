@@ -12,6 +12,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { strings } from "@/constants/strings-zh";
 import {
   Pressable,
   StyleSheet as RNStyleSheet,
@@ -149,7 +150,7 @@ export const LeftSidebar = memo(function LeftSidebar({
   );
   const activeServerId = activeDaemon?.serverId ?? null;
   const activeHostLabel = useMemo(() => {
-    if (!activeDaemon) return "No host";
+    if (!activeDaemon) return strings.sidebar.noHost;
     const trimmed = activeDaemon.label?.trim();
     return trimmed && trimmed.length > 0 ? trimmed : activeDaemon.serverId;
   }, [activeDaemon]);
@@ -501,7 +502,7 @@ function SidebarFooter({
             <FooterIconButton
               onPress={handleOpenProject}
               testID="sidebar-add-project"
-              accessibilityLabel="Add project"
+              accessibilityLabel=strings.sidebar.addProject
               icon={FolderPlus}
               theme={theme}
             />
@@ -513,14 +514,14 @@ function SidebarFooter({
         <FooterIconButton
           onPress={handleHome}
           testID="sidebar-home"
-          accessibilityLabel="Home"
+          accessibilityLabel=strings.sidebar.home
           icon={Home}
           theme={theme}
         />
         <FooterIconButton
           onPress={handleSettings}
           testID="sidebar-settings"
-          accessibilityLabel="Settings"
+          accessibilityLabel=strings.welcome.settings
           icon={Settings}
           theme={theme}
         />
@@ -531,7 +532,7 @@ function SidebarFooter({
         onSelect={handleHostSelect}
         renderOption={renderHostOption}
         searchable={false}
-        title="Switch host"
+        title=strings.sidebar.switchHost
         searchPlaceholder="Search hosts..."
         desktopMinWidth={280}
         open={isHostPickerOpen}
@@ -753,7 +754,7 @@ function MobileSidebar({
             <View style={styles.sidebarHeaderRow}>
               <SidebarHeaderRow
                 icon={MessagesSquare}
-                label="Sessions"
+                label=strings.sessions.title
                 onPress={handleViewMore}
                 isActive={isSessionsActive}
                 testID="sidebar-sessions"
@@ -770,7 +771,7 @@ function MobileSidebar({
               nativeID="sidebar-close"
               accessible
               accessibilityRole="button"
-              accessibilityLabel="Close sidebar"
+              accessibilityLabel=strings.sidebar.closeSidebar
               hitSlop={8}
             >
               {({ hovered, pressed }) => (
@@ -924,7 +925,7 @@ function DesktopSidebar({
           <View style={styles.sidebarHeaderRow}>
             <SidebarHeaderRow
               icon={MessagesSquare}
-              label="Sessions"
+              label=strings.sessions.title
               onPress={handleViewMore}
               isActive={isSessionsActive}
               testID="sidebar-sessions"
@@ -1006,7 +1007,7 @@ function WorkspacesSectionHeader({
           <TooltipTrigger asChild>
             <Pressable
               accessibilityRole="button"
-              accessibilityLabel="New workspace"
+              accessibilityLabel=strings.sidebar.newWorkspace
               testID="sidebar-new-workspace"
               style={searchButtonStyle}
               onPress={onNewWorkspacePress}
@@ -1022,7 +1023,7 @@ function WorkspacesSectionHeader({
             </Pressable>
           </TooltipTrigger>
           <TooltipContent side="bottom" align="center" offset={8}>
-            <HeaderIconTooltipContent label="New workspace" />
+            <HeaderIconTooltipContent label=strings.sidebar.newWorkspace />
           </TooltipContent>
         </Tooltip>
         <Tooltip delayDuration={300}>
@@ -1045,7 +1046,7 @@ function WorkspacesSectionHeader({
             </Pressable>
           </TooltipTrigger>
           <TooltipContent side="bottom" align="center" offset={8}>
-            <HeaderIconTooltipContent label="Search" shortcutKeys={commandCenterKeys} />
+            <HeaderIconTooltipContent label=strings.sidebar.search shortcutKeys={commandCenterKeys} />
           </TooltipContent>
         </Tooltip>
         <Tooltip delayDuration={300}>
@@ -1240,3 +1241,4 @@ const styles = StyleSheet.create((theme) => ({
     color: theme.colors.popoverForeground,
   },
 }));
+

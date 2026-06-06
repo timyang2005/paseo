@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { strings } from "@/constants/strings-zh";
 import { ScrollView, Text, View } from "react-native";
 import Animated, {
   cancelAnimation,
@@ -454,3 +455,4 @@ export function StartupSplashScreen({ bootstrapState }: StartupSplashScreenProps
     </View>
   );
 }
+

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef } from "react";
+import { strings } from "@/constants/strings-zh";
 import { ActivityIndicator, Pressable, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
@@ -12,10 +13,10 @@ function getDownloadStatusText(download: Download): string {
     if (download.progress) {
       return `${Math.round(download.progress.percent * 100)}% · ${formatSpeed(download.progress.speed)} · ${formatEta(download.progress.eta)}`;
     }
-    return "Starting...";
+    return strings.download.starting;
   }
-  if (download.status === "complete") return "Download complete";
-  return download.message ?? "Download failed";
+  if (download.status === "complete") return strings.download.complete;
+  return download.message ?? strings.download.failed;
 }
 
 export function DownloadToast() {
@@ -149,3 +150,4 @@ const styles = StyleSheet.create((theme) => ({
     padding: theme.spacing[1],
   },
 }));
+

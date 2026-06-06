@@ -16,6 +16,7 @@ import {
   type ReactElement,
   type ReactNode,
 } from "react";
+import { strings } from "@/constants/strings-zh";
 import { StyleSheet, withUnistyles } from "react-native-unistyles";
 import { useIsCompactFormFactor } from "@/constants/layout";
 import { useShallow } from "zustand/shallow";
@@ -691,8 +692,8 @@ interface ComposerProps {
 }
 
 const EMPTY_ARRAY: readonly QueuedMessage[] = [];
-const DESKTOP_MESSAGE_PLACEHOLDER = "Message the agent, tag @files, or use /commands and /skills";
-const MOBILE_MESSAGE_PLACEHOLDER = "Message, @files, /commands";
+const DESKTOP_MESSAGE_PLACEHOLDER = strings.composer.placeholder;
+const MOBILE_MESSAGE_PLACEHOLDER = strings.composer.placeholderAlt;
 const StableMessageInput = memo(MessageInput);
 
 function resolveContextWindowValues(
@@ -722,7 +723,7 @@ function ComposerCancelButton({
   isCancellingAgent,
   agentInterruptKeys,
 }: ComposerCancelButtonProps) {
-  const accessibilityLabel = isCancellingAgent ? "Canceling agent" : "Stop agent";
+  const accessibilityLabel = isCancellingAgent ? strings.composer.cancelAgent : strings.composer.stopAgent;
   const icon = isCancellingAgent ? (
     <ActivityIndicator size="small" color="white" />
   ) : (
@@ -1526,7 +1527,7 @@ export function Composer({
     () => [
       {
         id: "image",
-        label: "Add image",
+        label: strings.composer.addImage,
         icon: <ThemedPaperclip size={ICON_SIZE.md} uniProps={iconForegroundMutedMapping} />,
         onSelect: () => {
           void handlePickImage();
@@ -1534,7 +1535,7 @@ export function Composer({
       },
       {
         id: "github",
-        label: "Add issue or PR",
+        label: strings.composer.addIssueOrPR,
         icon: <ThemedGithub size={ICON_SIZE.md} uniProps={iconForegroundMutedMapping} />,
         onSelect: () => {
           setIsGithubPickerOpen(true);
@@ -1961,3 +1962,4 @@ const ThemedGithub = withUnistyles(Github);
 const iconForegroundMapping = (theme: Theme) => ({ color: theme.colors.foreground });
 const iconForegroundMutedMapping = (theme: Theme) => ({ color: theme.colors.foregroundMuted });
 const iconAccentForegroundMapping = (theme: Theme) => ({ color: theme.colors.accentForeground });
+

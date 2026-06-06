@@ -8,6 +8,7 @@ import {
   type ReactElement,
   type ReactNode,
 } from "react";
+import { strings } from "@/constants/strings-zh";
 import { useStoreWithEqualityFn } from "zustand/traditional";
 import { useIsFocused } from "@react-navigation/native";
 import { ActivityIndicator, BackHandler, Keyboard, Pressable, Text, View } from "react-native";
@@ -297,7 +298,7 @@ function useSyncWorkspaceActiveBrowser(input: {
 
 function getFallbackTabOptionLabel(tab: WorkspaceTabDescriptor): string {
   if (tab.target.kind === "draft") {
-    return "New Agent";
+    return strings.workspace.newAgentAction;
   }
   if (tab.target.kind === "setup") {
     return "Setup";
@@ -316,7 +317,7 @@ function getFallbackTabOptionLabel(tab: WorkspaceTabDescriptor): string {
 
 function getFallbackTabOptionDescription(tab: WorkspaceTabDescriptor): string {
   if (tab.target.kind === "draft") {
-    return "New Agent";
+    return strings.workspace.newAgentAction;
   }
   if (tab.target.kind === "setup") {
     return "Workspace setup";
@@ -716,8 +717,8 @@ const MobileWorkspaceTabSwitcher = memo(function MobileWorkspaceTabSwitcher({
         value={activeTabKey}
         onSelect={onSelectSwitcherTab}
         searchable={false}
-        title="Switch tab"
-        searchPlaceholder="Search tabs"
+        title=strings.workspace.switchTab
+        searchPlaceholder=strings.workspace.searchTabs
         open={isOpen}
         onOpenChange={setIsOpen}
         anchorRef={anchorRef}
@@ -940,7 +941,7 @@ function WorkspaceHeaderMenu({
         testID="workspace-header-menu-trigger"
         style={isMobile ? styles.compactHeaderActionButton : styles.headerActionButton}
         accessibilityRole="button"
-        accessibilityLabel="Workspace actions"
+        accessibilityLabel=strings.workspace.workspaceActions
       >
         {renderTriggerIcon}
       </DropdownMenuTrigger>
@@ -3840,3 +3841,4 @@ const containerWithWorkspaceBackgroundStyle = [
 ];
 
 const EXPLORER_TOGGLE_KEYS: ShortcutKey[] = ["mod", "E"];
+

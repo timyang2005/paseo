@@ -1,5 +1,6 @@
 import { AlertTriangle, FileText, Plus, RotateCw, Trash2 } from "lucide-react-native";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { strings } from "@/constants/strings-zh";
 import {
   ActivityIndicator,
   Pressable,
@@ -817,3 +818,4 @@ const MAIN_SNAP_POINTS = ["65%", "92%"];
 const ADD_SNAP_POINTS = ["40%"];
 const DIAGNOSTIC_SNAP_POINTS = ["50%", "85%"];
 const DIAGNOSTIC_CARD_STYLE = [settingsStyles.card, sheetStyles.diagnosticCard];
+

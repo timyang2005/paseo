@@ -8,6 +8,7 @@ import {
   type PressableStateCallbackType,
 } from "react-native";
 import { memo, useCallback, useEffect, useMemo, useRef, type ReactNode } from "react";
+import { strings } from "@/constants/strings-zh";
 import { Home, Plus, Settings } from "lucide-react-native";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
 import { useCommandCenter } from "@/hooks/use-command-center";
@@ -104,9 +105,9 @@ function CommandCenterActionRow({
   let actionIcon: React.ReactNode = null;
   if (action.icon === "plus") {
     actionIcon = <Plus size={16} strokeWidth={2.4} color={theme.colors.foregroundMuted} />;
-  } else if (action.icon === "settings") {
+  } else if (action.icon === strings.welcome.settings) {
     actionIcon = <Settings size={16} strokeWidth={2.2} color={theme.colors.foregroundMuted} />;
-  } else if (action.icon === "home") {
+  } else if (action.icon === strings.sidebar.home) {
     actionIcon = <Home size={16} strokeWidth={2.2} color={theme.colors.foregroundMuted} />;
   }
   const titleStyle = useMemo(
@@ -193,7 +194,7 @@ function CommandCenterAgentRowContent({ agent }: CommandCenterAgentRowContentPro
         </View>
         <View style={styles.textContent}>
           <Text style={titleStyle} numberOfLines={1}>
-            {agent.title || "New agent"}
+            {agent.title || strings.workspace.newAgentAction}
           </Text>
           <Text style={subtitleStyle} numberOfLines={1}>
             {shortenPath(agent.cwd)} · {formatTimeAgo(agent.lastActivityAt)}
@@ -338,7 +339,7 @@ export function CommandCenter() {
               ref={inputRef}
               value={query}
               onChangeText={setQuery}
-              placeholder="Type a command or search agents..."
+              placeholder=strings.commandCenter.placeholder
               placeholderTextColor={theme.colors.foregroundMuted}
               style={inputStyle}
               autoCapitalize="none"
@@ -488,3 +489,4 @@ const styles = StyleSheet.create((theme) => ({
     fontSize: theme.fontSize.base,
   },
 }));
+

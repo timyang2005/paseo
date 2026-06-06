@@ -1,4 +1,5 @@
 import { useMemo, useState, useCallback, useEffect } from "react";
+import { strings } from "@/constants/strings-zh";
 import { View, Text } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import { router } from "expo-router";
@@ -65,7 +66,7 @@ function SessionsScreenContent({ serverId }: { serverId: string }) {
 
   return (
     <View style={styles.container}>
-      <MenuHeader title="Sessions" />
+      <MenuHeader title=strings.sessions.title />
       {isInitialLoad ? (
         <View style={styles.loadingContainer}>
           <LoadingSpinner size="large" color={theme.colors.foregroundMuted} />
@@ -119,3 +120,4 @@ const styles = StyleSheet.create((theme) => ({
     paddingVertical: theme.spacing[4],
   },
 }));
+

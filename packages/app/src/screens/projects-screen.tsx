@@ -1,4 +1,5 @@
 import { useCallback, useMemo } from "react";
+import { strings } from "@/constants/strings-zh";
 import { Pressable, Text, View, type PressableStateCallbackType } from "react-native";
 import { router } from "expo-router";
 import { StyleSheet, useUnistyles } from "react-native-unistyles";
@@ -226,3 +227,4 @@ const styles = StyleSheet.create((theme) => ({
     color: theme.colors.foregroundMuted,
   },
 }));
+

@@ -7,6 +7,7 @@ import {
   useState,
   useSyncExternalStore,
 } from "react";
+import { strings } from "@/constants/strings-zh";
 import type { ComponentType, ReactElement, ReactNode } from "react";
 import {
   Alert,
@@ -133,14 +134,14 @@ interface SidebarSectionItem {
 }
 
 const SIDEBAR_SECTION_ITEMS: SidebarSectionItem[] = [
-  { id: "general", label: "General", icon: Settings },
-  { id: "daemon", label: "Daemon", icon: Server, desktopOnly: true },
-  { id: "appearance", label: "Appearance", icon: Palette },
+  { id: strings.settings.general, label: strings.settings.general, icon: Settings },
+  { id: strings.settings.daemon, label: strings.settings.daemon, icon: Server, desktopOnly: true },
+  { id: strings.settings.appearance, label: strings.settings.appearance, icon: Palette },
   { id: "shortcuts", label: "Shortcuts", icon: Keyboard, desktopOnly: true },
   { id: "integrations", label: "Integrations", icon: Puzzle, desktopOnly: true },
   { id: "permissions", label: "Permissions", icon: Shield, desktopOnly: true },
-  { id: "diagnostics", label: "Diagnostics", icon: Stethoscope },
-  { id: "about", label: "About", icon: Info },
+  { id: strings.settings.diagnostics, label: strings.settings.diagnostics, icon: Stethoscope },
+  { id: strings.settings.about, label: strings.settings.about, icon: Info },
 ];
 
 interface HostSectionItem {
@@ -153,7 +154,7 @@ const HOST_SECTION_ITEMS: HostSectionItem[] = [
   { id: "connections", label: "Connections", icon: Network },
   { id: "agents", label: "Agents", icon: Bot },
   { id: "workspaces", label: "Workspaces", icon: FolderGit2 },
-  { id: "providers", label: "Providers", icon: Boxes },
+  { id: strings.settings.providers, label: strings.settings.providers, icon: Boxes },
   { id: "host", label: "Host", icon: Server },
 ];
 
@@ -168,7 +169,7 @@ function renderHostSettingsContent(
       return <HostAgentsPage serverId={view.serverId} />;
     case "workspaces":
       return <HostWorkspacesPage serverId={view.serverId} />;
-    case "providers":
+    case strings.settings.providers:
       return <HostProvidersPage serverId={view.serverId} />;
     case "host":
       return <HostSettingsPage serverId={view.serverId} onHostRemoved={onHostRemoved} />;
@@ -283,7 +284,7 @@ function GeneralSection({
   }, [settings.terminalScrollbackLines]);
 
   return (
-    <SettingsSection title="General">
+    <SettingsSection title=strings.settings.general>
       <View style={settingsStyles.card}>
         <View style={settingsStyles.row}>
           <View style={settingsStyles.rowContent}>
@@ -364,7 +365,7 @@ function DiagnosticsSection({
     void handlePlaybackTest();
   }, [handlePlaybackTest]);
   return (
-    <SettingsSection title="Diagnostics">
+    <SettingsSection title=strings.settings.diagnostics>
       <View style={settingsStyles.card}>
         <View style={settingsStyles.row}>
           <View style={settingsStyles.rowContent}>
@@ -396,7 +397,7 @@ interface AboutSectionProps {
 function AboutSection({ appVersion, appVersionText, isDesktopApp }: AboutSectionProps) {
   return (
     <>
-      <SettingsSection title="About">
+      <SettingsSection title=strings.settings.about>
         <View style={settingsStyles.card}>
           <View style={settingsStyles.row}>
             <View style={settingsStyles.rowContent}>
@@ -938,7 +939,7 @@ function HostPicker({
         style={triggerStyle}
         onPress={handleOpen}
         accessibilityRole="button"
-        accessibilityLabel="Switch host"
+        accessibilityLabel=strings.sidebar.switchHost
         testID="settings-host-picker"
       >
         <Monitor size={theme.iconSize.sm} color={theme.colors.foregroundMuted} />
@@ -953,7 +954,7 @@ function HostPicker({
         onSelect={handleSelect}
         renderOption={renderOption}
         searchable={false}
-        title="Switch host"
+        title=strings.sidebar.switchHost
         desktopMinWidth={240}
         open={isOpen}
         onOpenChange={setIsOpen}
@@ -1035,7 +1036,7 @@ function SettingsSidebar({
               isSelected={selectedSectionId === item.id}
               onSelect={onSelectSection}
             />
-            {item.id === "general" ? (
+            {item.id === strings.settings.general ? (
               <SidebarProjectsButton isSelected={isProjectsSelected} onSelect={onSelectProjects} />
             ) : null}
           </Fragment>
@@ -1290,12 +1291,12 @@ export default function SettingsScreen({ view }: SettingsScreenProps) {
     closeAddConnectionFlow();
     router.push({
       pathname: "/pair-scan",
-      params: { source: "settings" },
+      params: { source: strings.welcome.settings },
     });
   }, [closeAddConnectionFlow, router]);
 
   const handleHostRemoved = useCallback(() => {
-    const fallback = buildSettingsSectionRoute("general");
+    const fallback = buildSettingsSectionRoute(strings.settings.general);
     if (isCompactLayout) {
       router.replace("/settings");
     } else {
@@ -1355,7 +1356,7 @@ export default function SettingsScreen({ view }: SettingsScreenProps) {
     }
     if (view.kind === "section") {
       switch (view.section) {
-        case "general":
+        case strings.settings.general:
           return (
             <GeneralSection
               settings={settings}
@@ -1365,9 +1366,9 @@ export default function SettingsScreen({ view }: SettingsScreenProps) {
               handleTerminalScrollbackLinesChange={handleTerminalScrollbackLinesChange}
             />
           );
-        case "daemon":
+        case strings.settings.daemon:
           return <LocalDaemonSection />;
-        case "appearance":
+        case strings.settings.appearance:
           return <AppearanceSection />;
         case "shortcuts":
           return isDesktopApp ? <KeyboardShortcutsSection /> : null;
@@ -1375,7 +1376,7 @@ export default function SettingsScreen({ view }: SettingsScreenProps) {
           return isDesktopApp ? <IntegrationsSection /> : null;
         case "permissions":
           return isDesktopApp ? <DesktopPermissionsSection /> : null;
-        case "diagnostics":
+        case strings.settings.diagnostics:
           return (
             <DiagnosticsSection
               voiceAudioEngine={voiceAudioEngine}
@@ -1384,7 +1385,7 @@ export default function SettingsScreen({ view }: SettingsScreenProps) {
               handlePlaybackTest={handlePlaybackTest}
             />
           );
-        case "about":
+        case strings.settings.about:
           return (
             <AboutSection
               appVersion={appVersion}
@@ -1433,7 +1434,7 @@ export default function SettingsScreen({ view }: SettingsScreenProps) {
   if (isCompactLayout && view.kind === "root") {
     return (
       <View style={styles.container}>
-        <BackHeader title="Settings" onBack={handleBackToWorkspace} />
+        <BackHeader title=strings.welcome.settings onBack={handleBackToWorkspace} />
         <ScrollView style={scrollViewStyle} contentContainerStyle={insetBottomStyle}>
           <SettingsSidebar
             view={view}
@@ -1692,3 +1693,4 @@ const sidebarStyles = StyleSheet.create((theme) => ({
     fontWeight: theme.fontWeight.normal,
   },
 }));
+

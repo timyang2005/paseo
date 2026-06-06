@@ -21,6 +21,7 @@ import {
   useMemo,
   forwardRef,
 } from "react";
+import { strings } from "@/constants/strings-zh";
 import { StyleSheet, withUnistyles } from "react-native-unistyles";
 import { ICON_SIZE, type Theme } from "@/styles/theme";
 import { ArrowUp, Mic, MicOff, CornerDownLeft, Plus, Square } from "lucide-react-native";
@@ -142,7 +143,7 @@ const MIN_INPUT_HEIGHT_DESKTOP = 46;
 const DEFAULT_MAX_INPUT_HEIGHT = 160;
 const MAX_INPUT_VIEWPORT_RATIO = 0.5;
 const MIN_INPUT_HEIGHT = isWeb ? MIN_INPUT_HEIGHT_DESKTOP : MIN_INPUT_HEIGHT_MOBILE;
-const ATTACHMENT_SHEET_HEADER: SheetHeader = { title: "Add attachment" };
+const ATTACHMENT_SHEET_HEADER: SheetHeader = { title: strings.composer.addAttachment };
 const ATTACHMENT_SHEET_SNAP_POINTS = ["34%", "45%"];
 
 type WebTextInputKeyPressEvent = NativeSyntheticEvent<
@@ -306,7 +307,7 @@ function AttachmentDropdown({
       <>
         <Pressable
           disabled={isButtonDisabled}
-          accessibilityLabel="Add attachment"
+          accessibilityLabel=strings.composer.addAttachment
           accessibilityRole="button"
           testID="message-input-attach-button"
           onPress={handleOpenSheet}
@@ -333,7 +334,7 @@ function AttachmentDropdown({
         <TooltipTrigger asChild>
           <DropdownMenuTrigger
             disabled={isButtonDisabled}
-            accessibilityLabel="Add attachment"
+            accessibilityLabel=strings.composer.addAttachment
             accessibilityRole="button"
             testID="message-input-attach-button"
             style={attachButtonStyle}
@@ -436,10 +437,10 @@ function resolveSubmitAccessibilityLabel(input: {
   isAgentRunning: boolean;
 }): string {
   if (input.submitButtonAccessibilityLabel) return input.submitButtonAccessibilityLabel;
-  if (input.canPressLoadingButton) return "Interrupt agent";
-  if (input.defaultActionQueues) return "Queue message";
-  if (input.isAgentRunning) return "Send and interrupt";
-  return "Send message";
+  if (input.canPressLoadingButton) return strings.composer.interruptAgent;
+  if (input.defaultActionQueues) return strings.composer.queueMessage;
+  if (input.isAgentRunning) return strings.composer.sendAndInterrupt;
+  return strings.composer.sendMessage;
 }
 
 function resolveVoiceAccessibilityLabel(input: {
@@ -450,8 +451,8 @@ function resolveVoiceAccessibilityLabel(input: {
   if (input.isRealtimeVoiceForCurrentAgent) {
     return input.isMuted ? "Unmute Voice mode" : "Mute Voice mode";
   }
-  if (input.isDictating) return "Stop dictation";
-  return "Start dictation";
+  if (input.isDictating) return strings.composer.stopDictation;
+  return strings.composer.startDictation;
 }
 
 function resolveVoiceTooltipText(input: {
@@ -2119,3 +2120,4 @@ const iconAccentForegroundMapping = (theme: Theme) => ({ color: theme.colors.acc
 const textInputPlaceholderColorMapping = (theme: Theme) => ({
   placeholderTextColor: theme.colors.surface4,
 });
+

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
+import { strings } from "@/constants/strings-zh";
 import {
   View,
   Text,
@@ -72,7 +73,7 @@ const DESKTOP_MODEL_ROW_HEIGHT = 40;
 
 type SelectorView =
   | { kind: "all" }
-  | { kind: "provider"; providerId: string; providerLabel: string };
+  | { kind: strings.agentControls.provider; providerId: string; providerLabel: string };
 
 interface CombinedModelSelectorProps {
   providers: ProviderSelectorProvider[];
@@ -468,7 +469,7 @@ function SelectorContent({
   const normalizedQuery = useMemo(() => normalizeSearchQuery(searchQuery), [searchQuery]);
   const selectedViewProvider = useMemo(
     () =>
-      view.kind === "provider"
+      view.kind === strings.agentControls.provider
         ? providers.find((provider) => provider.id === view.providerId)
         : null,
     [providers, view],
@@ -492,7 +493,7 @@ function SelectorContent({
     </View>
   );
 
-  if (view.kind === "provider") {
+  if (view.kind === strings.agentControls.provider) {
     if (!selectedViewProvider) {
       return emptyState;
     }
@@ -585,7 +586,7 @@ export function CombinedModelSelector({
     if (providers.length !== 1) return null;
     const provider = providers[0];
     if (!provider) return null;
-    return { kind: "provider", providerId: provider.id, providerLabel: provider.label };
+    return { kind: strings.agentControls.provider, providerId: provider.id, providerLabel: provider.label };
   }, [providers]);
 
   const computeInitialView = useCallback((): SelectorView => {
@@ -595,7 +596,7 @@ export function CombinedModelSelector({
     if (selectedProvider && selectedModel && !favoriteKeys.has(selectedFavoriteKey)) {
       const provider = providers.find((entry) => entry.id === selectedProvider);
       if (provider)
-        return { kind: "provider", providerId: provider.id, providerLabel: provider.label };
+        return { kind: strings.agentControls.provider, providerId: provider.id, providerLabel: provider.label };
     }
 
     return { kind: "all" };
@@ -639,7 +640,7 @@ export function CombinedModelSelector({
   }, [isLoading, providers, selectedModel, selectedProvider]);
 
   const desktopFixedHeight = useMemo(() => {
-    if (view.kind !== "provider") {
+    if (view.kind !== strings.agentControls.provider) {
       return undefined;
     }
     const provider = providers.find((entry) => entry.id === view.providerId);
@@ -703,7 +704,7 @@ export function CombinedModelSelector({
   }, []);
 
   const handleDrillDown = useCallback((providerId: string, providerLabel: string) => {
-    setView({ kind: "provider", providerId, providerLabel });
+    setView({ kind: strings.agentControls.provider, providerId, providerLabel });
   }, []);
 
   const handleSearchQueryChange = useCallback((value: string) => {
@@ -711,7 +712,7 @@ export function CombinedModelSelector({
   }, []);
 
   const openProviderSettings = useCallback(() => {
-    if (!serverId || view.kind !== "provider") return;
+    if (!serverId || view.kind !== strings.agentControls.provider) return;
     useProviderSettingsStore.getState().open({ serverId, provider: view.providerId });
   }, [serverId, view]);
 
@@ -808,7 +809,7 @@ export function CombinedModelSelector({
         desktopMinWidth={360}
         desktopFixedHeight={desktopFixedHeight}
         header={sheetHeader}
-        mobileChildrenScrollEnabled={view.kind !== "provider" || !isNative}
+        mobileChildrenScrollEnabled={view.kind !== strings.agentControls.provider || !isNative}
       >
         {isContentReady ? (
           <SelectorContent
@@ -989,3 +990,4 @@ const styles = StyleSheet.create((theme) => ({
     fontSize: theme.fontSize.sm,
   },
 }));
+
