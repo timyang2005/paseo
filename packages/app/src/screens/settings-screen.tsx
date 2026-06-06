@@ -284,7 +284,7 @@ function GeneralSection({
   }, [settings.terminalScrollbackLines]);
 
   return (
-    <SettingsSection title=strings.settings.general>
+    <SettingsSection title={strings.settings.general}>
       <View style={settingsStyles.card}>
         <View style={settingsStyles.row}>
           <View style={settingsStyles.rowContent}>
@@ -365,7 +365,7 @@ function DiagnosticsSection({
     void handlePlaybackTest();
   }, [handlePlaybackTest]);
   return (
-    <SettingsSection title=strings.settings.diagnostics>
+    <SettingsSection title={strings.settings.diagnostics}>
       <View style={settingsStyles.card}>
         <View style={settingsStyles.row}>
           <View style={settingsStyles.rowContent}>
@@ -397,7 +397,7 @@ interface AboutSectionProps {
 function AboutSection({ appVersion, appVersionText, isDesktopApp }: AboutSectionProps) {
   return (
     <>
-      <SettingsSection title=strings.settings.about>
+      <SettingsSection title={strings.settings.about}>
         <View style={settingsStyles.card}>
           <View style={settingsStyles.row}>
             <View style={settingsStyles.rowContent}>
@@ -939,7 +939,7 @@ function HostPicker({
         style={triggerStyle}
         onPress={handleOpen}
         accessibilityRole="button"
-        accessibilityLabel=strings.sidebar.switchHost
+        accessibilityLabel={strings.sidebar.switchHost}
         testID="settings-host-picker"
       >
         <Monitor size={theme.iconSize.sm} color={theme.colors.foregroundMuted} />
@@ -954,7 +954,7 @@ function HostPicker({
         onSelect={handleSelect}
         renderOption={renderOption}
         searchable={false}
-        title=strings.sidebar.switchHost
+        title={strings.sidebar.switchHost}
         desktopMinWidth={240}
         open={isOpen}
         onOpenChange={setIsOpen}
@@ -1434,7 +1434,7 @@ export default function SettingsScreen({ view }: SettingsScreenProps) {
   if (isCompactLayout && view.kind === "root") {
     return (
       <View style={styles.container}>
-        <BackHeader title=strings.welcome.settings onBack={handleBackToWorkspace} />
+        <BackHeader title={strings.welcome.settings} onBack={handleBackToWorkspace} />
         <ScrollView style={scrollViewStyle} contentContainerStyle={insetBottomStyle}>
           <SettingsSidebar
             view={view}
@@ -1693,4 +1693,5 @@ const sidebarStyles = StyleSheet.create((theme) => ({
     fontWeight: theme.fontWeight.normal,
   },
 }));
+
 

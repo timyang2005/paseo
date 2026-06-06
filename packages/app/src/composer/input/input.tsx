@@ -307,7 +307,7 @@ function AttachmentDropdown({
       <>
         <Pressable
           disabled={isButtonDisabled}
-          accessibilityLabel=strings.composer.addAttachment
+          accessibilityLabel={strings.composer.addAttachment}
           accessibilityRole="button"
           testID="message-input-attach-button"
           onPress={handleOpenSheet}
@@ -334,7 +334,7 @@ function AttachmentDropdown({
         <TooltipTrigger asChild>
           <DropdownMenuTrigger
             disabled={isButtonDisabled}
-            accessibilityLabel=strings.composer.addAttachment
+            accessibilityLabel={strings.composer.addAttachment}
             accessibilityRole="button"
             testID="message-input-attach-button"
             style={attachButtonStyle}
@@ -2120,4 +2120,5 @@ const iconAccentForegroundMapping = (theme: Theme) => ({ color: theme.colors.acc
 const textInputPlaceholderColorMapping = (theme: Theme) => ({
   placeholderTextColor: theme.colors.surface4,
 });
+
 

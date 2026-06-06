@@ -339,7 +339,7 @@ export function CommandCenter() {
               ref={inputRef}
               value={query}
               onChangeText={setQuery}
-              placeholder=strings.commandCenter.placeholder
+              placeholder={strings.commandCenter.placeholder}
               placeholderTextColor={theme.colors.foregroundMuted}
               style={inputStyle}
               autoCapitalize="none"
@@ -489,4 +489,5 @@ const styles = StyleSheet.create((theme) => ({
     fontSize: theme.fontSize.base,
   },
 }));
+
 

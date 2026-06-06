@@ -744,7 +744,7 @@ function WorkspaceKebabMenu({
         hitSlop={8}
         style={workspaceKebabStyle}
         accessibilityRole={platformIsWeb ? undefined : "button"}
-        accessibilityLabel=strings.workspace.workspaceActions
+        accessibilityLabel={strings.workspace.workspaceActions}
         testID={`sidebar-workspace-kebab-${workspaceKey}`}
       >
         {renderKebabTriggerIcon}
@@ -1713,7 +1713,7 @@ function WorkspaceRowWithMenu({
       />
       <AdaptiveRenameModal
         visible={isRenameOpen}
-        title=strings.sidebar.renameWorkspace
+        title={strings.sidebar.renameWorkspace}
         initialValue={workspace.name}
         placeholder="branch-name"
         submitLabel="Rename"
@@ -3076,4 +3076,5 @@ function getStatusDotColorStyle(bucket: SidebarStateBucket): ViewStyle | null {
       return null;
   }
 }
+
 

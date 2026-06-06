@@ -102,9 +102,9 @@ export function BranchSwitcher({
         value={currentBranchName}
         onSelect={handleBranchSelect}
         searchable
-        placeholder=strings.branch.switchBranch
+        placeholder={strings.branch.switchBranch}
         searchPlaceholder="Filter branches..."
-        emptyText=strings.branch.noBranches
+        emptyText={strings.branch.noBranches}
         title="Switch branch"
         open={isOpen}
         onOpenChange={setIsOpen}
@@ -147,4 +147,5 @@ const styles = StyleSheet.create((theme) => ({
     overflow: "hidden",
   },
 }));
+
 

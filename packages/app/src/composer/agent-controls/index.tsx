@@ -765,7 +765,7 @@ function DesktopAgentControlsContent(props: DesktopAgentControlsContentProps) {
             onPress={handleProviderPress}
             style={providerPressableStyle}
             accessibilityRole="button"
-            accessibilityLabel=strings.agentControls.selectProvider
+            accessibilityLabel={strings.agentControls.selectProvider}
             testID="agent-provider-selector"
           >
             <Text style={styles.modeBadgeText}>{displayProvider}</Text>
@@ -1013,7 +1013,7 @@ function SheetAgentControlsContent(props: SheetAgentControlsContentProps) {
           disabled={disabled || !canSelectThinking}
           style={thinkingButtonStyle}
           accessibilityRole="button"
-          accessibilityLabel=strings.agentControls.selectThinking
+          accessibilityLabel={strings.agentControls.selectThinking}
           testID="agent-controls-thinking"
         >
           <Brain size={theme.iconSize.md} color={theme.colors.foregroundMuted} />
@@ -1026,7 +1026,7 @@ function SheetAgentControlsContent(props: SheetAgentControlsContentProps) {
           disabled={disabled}
           style={featuresButtonStyle}
           accessibilityRole="button"
-          accessibilityLabel=strings.agentControls.openFeatures
+          accessibilityLabel={strings.agentControls.openFeatures}
           testID="agent-controls-features"
         >
           <Settings2 size={theme.iconSize.md} color={theme.colors.foregroundMuted} />
@@ -1039,7 +1039,7 @@ function SheetAgentControlsContent(props: SheetAgentControlsContentProps) {
           value={selectedThinkingOptionId ?? ""}
           onSelect={handleSelectThinkingAndClose}
           searchable={false}
-          title=strings.agentControls.thinking
+          title={strings.agentControls.thinking}
           open={activeSheet === strings.agentControls.thinking}
           onOpenChange={handleThinkingSheetOpenChange}
           anchorRef={thinkingAnchorRef}
@@ -1806,4 +1806,5 @@ const styles = StyleSheet.create((theme) => ({
     fontWeight: theme.fontWeight.semibold,
   },
 }));
+
 

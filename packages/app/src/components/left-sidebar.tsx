@@ -502,7 +502,7 @@ function SidebarFooter({
             <FooterIconButton
               onPress={handleOpenProject}
               testID="sidebar-add-project"
-              accessibilityLabel=strings.sidebar.addProject
+              accessibilityLabel={strings.sidebar.addProject}
               icon={FolderPlus}
               theme={theme}
             />
@@ -514,14 +514,14 @@ function SidebarFooter({
         <FooterIconButton
           onPress={handleHome}
           testID="sidebar-home"
-          accessibilityLabel=strings.sidebar.home
+          accessibilityLabel={strings.sidebar.home}
           icon={Home}
           theme={theme}
         />
         <FooterIconButton
           onPress={handleSettings}
           testID="sidebar-settings"
-          accessibilityLabel=strings.welcome.settings
+          accessibilityLabel={strings.welcome.settings}
           icon={Settings}
           theme={theme}
         />
@@ -532,7 +532,7 @@ function SidebarFooter({
         onSelect={handleHostSelect}
         renderOption={renderHostOption}
         searchable={false}
-        title=strings.sidebar.switchHost
+        title={strings.sidebar.switchHost}
         searchPlaceholder="Search hosts..."
         desktopMinWidth={280}
         open={isHostPickerOpen}
@@ -754,7 +754,7 @@ function MobileSidebar({
             <View style={styles.sidebarHeaderRow}>
               <SidebarHeaderRow
                 icon={MessagesSquare}
-                label=strings.sessions.title
+                label={strings.sessions.title}
                 onPress={handleViewMore}
                 isActive={isSessionsActive}
                 testID="sidebar-sessions"
@@ -771,7 +771,7 @@ function MobileSidebar({
               nativeID="sidebar-close"
               accessible
               accessibilityRole="button"
-              accessibilityLabel=strings.sidebar.closeSidebar
+              accessibilityLabel={strings.sidebar.closeSidebar}
               hitSlop={8}
             >
               {({ hovered, pressed }) => (
@@ -925,7 +925,7 @@ function DesktopSidebar({
           <View style={styles.sidebarHeaderRow}>
             <SidebarHeaderRow
               icon={MessagesSquare}
-              label=strings.sessions.title
+              label={strings.sessions.title}
               onPress={handleViewMore}
               isActive={isSessionsActive}
               testID="sidebar-sessions"
@@ -1007,7 +1007,7 @@ function WorkspacesSectionHeader({
           <TooltipTrigger asChild>
             <Pressable
               accessibilityRole="button"
-              accessibilityLabel=strings.sidebar.newWorkspace
+              accessibilityLabel={strings.sidebar.newWorkspace}
               testID="sidebar-new-workspace"
               style={searchButtonStyle}
               onPress={onNewWorkspacePress}
@@ -1023,7 +1023,7 @@ function WorkspacesSectionHeader({
             </Pressable>
           </TooltipTrigger>
           <TooltipContent side="bottom" align="center" offset={8}>
-            <HeaderIconTooltipContent label=strings.sidebar.newWorkspace />
+            <HeaderIconTooltipContent label={strings.sidebar.newWorkspace} />
           </TooltipContent>
         </Tooltip>
         <Tooltip delayDuration={300}>
@@ -1046,7 +1046,7 @@ function WorkspacesSectionHeader({
             </Pressable>
           </TooltipTrigger>
           <TooltipContent side="bottom" align="center" offset={8}>
-            <HeaderIconTooltipContent label=strings.sidebar.search shortcutKeys={commandCenterKeys} />
+            <HeaderIconTooltipContent label={strings.sidebar.search} shortcutKeys={commandCenterKeys} />
           </TooltipContent>
         </Tooltip>
         <Tooltip delayDuration={300}>
@@ -1241,4 +1241,5 @@ const styles = StyleSheet.create((theme) => ({
     color: theme.colors.popoverForeground,
   },
 }));
+
 

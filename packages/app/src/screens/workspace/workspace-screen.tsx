@@ -717,8 +717,8 @@ const MobileWorkspaceTabSwitcher = memo(function MobileWorkspaceTabSwitcher({
         value={activeTabKey}
         onSelect={onSelectSwitcherTab}
         searchable={false}
-        title=strings.workspace.switchTab
-        searchPlaceholder=strings.workspace.searchTabs
+        title={strings.workspace.switchTab}
+        searchPlaceholder={strings.workspace.searchTabs}
         open={isOpen}
         onOpenChange={setIsOpen}
         anchorRef={anchorRef}
@@ -941,7 +941,7 @@ function WorkspaceHeaderMenu({
         testID="workspace-header-menu-trigger"
         style={isMobile ? styles.compactHeaderActionButton : styles.headerActionButton}
         accessibilityRole="button"
-        accessibilityLabel=strings.workspace.workspaceActions
+        accessibilityLabel={strings.workspace.workspaceActions}
       >
         {renderTriggerIcon}
       </DropdownMenuTrigger>
